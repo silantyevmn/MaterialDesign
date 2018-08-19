@@ -33,7 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void init(final List<Theme> themes) {
-        final Spinner spinner=findViewById(R.id.spinner);
+       /* final Spinner spinner=findViewById(R.id.spinner);
 
         Button bt=findViewById(R.id.button_action);
 
@@ -43,8 +43,8 @@ public class SettingsActivity extends AppCompatActivity {
                 int itemPosition=spinner.getSelectedItemPosition();
                 switchTheme(themes.get(itemPosition).getId());
             }
-        });
-       /* LinearLayout linearLayout = findViewById(R.id.line_setting);
+        });*/
+        LinearLayout linearLayout = findViewById(R.id.line_setting);
         Button[] buttons = new Button[themes.size()];
         for (int i = 0; i < buttons.length; i++) {
             Button button = new Button(this);
@@ -59,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
             });
             linearLayout.addView(button);
 
-        }*/
+        }
 
     }
 
