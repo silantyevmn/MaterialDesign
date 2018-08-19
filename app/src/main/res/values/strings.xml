@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MaterialDesign</string>
+    <string name="action_settings">Settings</string>
+    <string-array name="theme_array">
+        <item>Blue</item>
+        <item>Red</item>
+        <item>Green</item>
+        <item>Orange</item>
+    </string-array>
+</resources>

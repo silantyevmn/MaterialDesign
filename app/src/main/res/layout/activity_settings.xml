@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/line_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    tools:context="silantyevmn.ru.materialdesign.view.activity.SettingsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:entries="@array/theme_array">
+        </Spinner>
+
+        <Button
+            android:id="@+id/button_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Назначить тему"/>
+    </LinearLayout>
+
+
+</LinearLayout>
