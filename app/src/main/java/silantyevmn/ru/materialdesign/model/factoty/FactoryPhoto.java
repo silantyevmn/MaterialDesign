@@ -10,8 +10,8 @@ import silantyevmn.ru.materialdesign.model.entity.Photo;
  */
 
 public class FactoryPhoto implements IFactory<Photo> {
-    private int[] photoId = new int[]{1, 2, 3};
-    private String[] photoName = new String[]{"1", "2", "3"};
+    private int[] photoId = new int[]{1, 2, 3,4,5,6,7};
+    private String[] photoName = new String[]{"фото1", "фото2", "фото3", "фото4", "фото5", "фото6", "фото7"};
 
     @Override
     public List<Photo> getList() {
