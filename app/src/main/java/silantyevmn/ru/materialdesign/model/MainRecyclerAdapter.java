@@ -28,7 +28,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
 
     public MainRecyclerAdapter(List<Photo> photos, MainRecyclerAdapter.onClick listener) {
         this.photos = photos;
-        this.listener=listener;
+        this.listener = listener;
     }
 
     @NonNull
@@ -61,7 +61,7 @@ public class MainRecyclerAdapter extends RecyclerView.Adapter<MainRecyclerAdapte
                 @Override
                 public void onClick(View view) {
                     listener.onClickRecyclerAdapter(getAdapterPosition());
-                    Log.i("position-",""+getAdapterPosition());
+                    Log.i("position-", "" + getAdapterPosition());
                 }
             });
         }

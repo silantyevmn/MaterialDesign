@@ -16,7 +16,7 @@ import silantyevmn.ru.materialdesign.model.entity.Theme;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String LIST_THEMES = "list_themes";
-    private final int margin_default=10;
+    private final int margin_default = 10;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -35,8 +35,8 @@ public class SettingsActivity extends AppCompatActivity {
     private void init(final List<Theme> themes) {
 
         LinearLayout linearLayout = findViewById(R.id.line_setting);
-        LinearLayout.LayoutParams marginParam=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-        marginParam.setMargins(margin_default,margin_default,margin_default,margin_default);
+        LinearLayout.LayoutParams marginParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        marginParam.setMargins(margin_default, margin_default, margin_default, margin_default);
 
         Button[] buttons = new Button[themes.size()];
         for (int i = 0; i < buttons.length; i++) {
@@ -50,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
                     switchTheme(themes.get(finalI).getId());
                 }
             });
-            linearLayout.addView(button,marginParam);
+            linearLayout.addView(button, marginParam);
 
         }
 
