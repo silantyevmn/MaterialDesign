@@ -35,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void init(final List<Theme> themes) {
 
         LinearLayout linearLayout = findViewById(R.id.line_setting);
-        LinearLayout.LayoutParams marginParam=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams marginParam=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         marginParam.setMargins(margin_default,margin_default,margin_default,margin_default);
 
         Button[] buttons = new Button[themes.size()];
