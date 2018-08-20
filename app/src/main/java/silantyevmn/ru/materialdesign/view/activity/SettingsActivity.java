@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 
 import java.util.List;
 
@@ -17,6 +16,7 @@ import silantyevmn.ru.materialdesign.model.entity.Theme;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String LIST_THEMES = "list_themes";
+    private final int margin_default=10;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -33,18 +33,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void init(final List<Theme> themes) {
-       /* final Spinner spinner=findViewById(R.id.spinner);
 
-        Button bt=findViewById(R.id.button_action);
-
-        bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int itemPosition=spinner.getSelectedItemPosition();
-                switchTheme(themes.get(itemPosition).getId());
-            }
-        });*/
         LinearLayout linearLayout = findViewById(R.id.line_setting);
+        LinearLayout.LayoutParams marginParam=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        marginParam.setMargins(margin_default,margin_default,margin_default,margin_default);
+
         Button[] buttons = new Button[themes.size()];
         for (int i = 0; i < buttons.length; i++) {
             Button button = new Button(this);
@@ -57,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
                     switchTheme(themes.get(finalI).getId());
                 }
             });
-            linearLayout.addView(button);
+            linearLayout.addView(button,marginParam);
 
         }
 
