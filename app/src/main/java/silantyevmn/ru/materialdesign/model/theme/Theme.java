@@ -1,4 +1,4 @@
-package silantyevmn.ru.materialdesign.model.entity;
+package silantyevmn.ru.materialdesign.model.theme;
 
 import java.io.Serializable;
 
