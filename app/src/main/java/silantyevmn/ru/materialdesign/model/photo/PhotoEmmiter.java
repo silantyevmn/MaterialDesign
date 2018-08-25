@@ -1,4 +1,4 @@
-package silantyevmn.ru.materialdesign.model.entity;
+package silantyevmn.ru.materialdesign.model.photo;
 
 import java.util.ArrayList;
 import java.util.List;
