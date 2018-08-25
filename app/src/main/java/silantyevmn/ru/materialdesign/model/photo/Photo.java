@@ -1,4 +1,4 @@
-package silantyevmn.ru.materialdesign.model.entity;
+package silantyevmn.ru.materialdesign.model.photo;
 
 import android.net.Uri;
 
