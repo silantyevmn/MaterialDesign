@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="button_margin_10">10dp</dimen>
-    <dimen name="card_margin_default">5dp</dimen>
-    <dimen name="card_image_min_width">100dp</dimen>
-    <dimen name="card_image_min_height">100dp</dimen>
+    <dimen name="margin10">10dp</dimen>
+    <dimen name="card_margin_default">2dp</dimen>
+    <dimen name="card_image_min_width">150dp</dimen>
+    <dimen name="card_image_min_height">150dp</dimen>
     <dimen name="card_text_size_default">15dp</dimen>
+    <dimen name="margin5">5dp</dimen>
 </resources>
