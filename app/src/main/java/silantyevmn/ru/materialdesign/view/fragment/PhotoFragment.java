@@ -14,35 +14,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import silantyevmn.ru.materialdesign.R;
-import silantyevmn.ru.materialdesign.model.entity.Photo;
-import silantyevmn.ru.materialdesign.presenter.PresenterMainFragment;
+import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
 import silantyevmn.ru.materialdesign.view.recycler.PhotoAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
-public class MainFragment extends Fragment implements MainFragmentView {
+public class PhotoFragment extends Fragment implements IPhotoFragment {
     private static final int GALLERY_REQUEST = 1;
-    private static String ARG_PHOTOS = "photos";
     private final int COUNT_SPAN = 3; //количество фото в строке
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
-    private PresenterMainFragment presenter;
-
-    public static MainFragment newInstance(List<Photo> photos) {
-        MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle();
-        //args.putSerializable(ARG_PHOTOS, (Serializable) photos);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private PhotoPresenter presenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter=new PresenterMainFragment(this);
+        presenter=new PhotoPresenter(this);
     }
 
     @Override
