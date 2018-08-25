@@ -12,7 +12,7 @@ import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.entity.Theme;
+import silantyevmn.ru.materialdesign.model.theme.Theme;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String LIST_THEMES = "list_themes";
@@ -61,9 +61,9 @@ public class SettingsActivity extends AppCompatActivity {
         recreate();
     }
 
-   /* //обработка клавиши назад
+    //обработка клавиши назад
     @Override
     public void onBackPressed() {
         SettingsActivity.this.finish();
-    }*/
+    }
 }
