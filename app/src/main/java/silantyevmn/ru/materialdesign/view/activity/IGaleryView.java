@@ -12,4 +12,5 @@ import silantyevmn.ru.materialdesign.model.theme.Theme;
 public interface IGaleryView {
     void showFragment(List<Photo> photos);
     void showSetting(List<Theme> themes);
+    void init();
 }
