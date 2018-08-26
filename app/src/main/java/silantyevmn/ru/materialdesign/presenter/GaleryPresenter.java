@@ -20,18 +20,15 @@ public class GaleryPresenter {
     }
 
     public void onCreate() {
+        mainActivityView.init();
         mainActivityView.showFragment(ModelPhoto.getInstance().getList());
     }
 
-    public boolean onClickMenuItem(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_settings: {
-                mainActivityView.showSetting(ModelTheme.getInstance().getList());
-                return true;
-            }
-            default:
-                return false;
-        }
+    public void onClickFab() {
+        //todo заглушка
+    }
+
+    public void onClickMenuSetting() {
+        mainActivityView.showSetting(ModelTheme.getInstance().getList());
     }
 }
