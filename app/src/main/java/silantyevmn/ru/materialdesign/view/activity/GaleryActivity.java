@@ -13,15 +13,15 @@ import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.theme.Theme;
-import silantyevmn.ru.materialdesign.presenter.MainPresenter;
+import silantyevmn.ru.materialdesign.presenter.GaleryPresenter;
 import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
 
-public class MainActivity extends AppCompatActivity implements MainActivityView{
-    private final MainPresenter presenter;
+public class GaleryActivity extends AppCompatActivity implements IGaleryView {
+    private final GaleryPresenter presenter;
     private final int SETTING_REQUEST = 2;
 
-    public MainActivity(){
-        presenter=new MainPresenter(this);
+    public GaleryActivity(){
+        presenter=new GaleryPresenter(this);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView{
 
     @Override
     public void showSetting(List<Theme> themes) {
-        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        Intent intent = new Intent(GaleryActivity.this, SettingsActivity.class);
         intent.putExtra(SettingsActivity.LIST_THEMES, (Serializable) themes);
         startActivityForResult(intent,SETTING_REQUEST);
     }

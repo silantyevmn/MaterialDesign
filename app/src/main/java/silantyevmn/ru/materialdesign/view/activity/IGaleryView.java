@@ -9,7 +9,7 @@ import silantyevmn.ru.materialdesign.model.theme.Theme;
  * Created by silan on 24.08.2018.
  */
 
-public interface MainActivityView {
+public interface IGaleryView {
     void showFragment(List<Photo> photos);
     void showSetting(List<Theme> themes);
 }
