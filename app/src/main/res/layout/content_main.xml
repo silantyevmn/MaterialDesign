@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="silantyevmn.ru.materialdesign.view.activity.GaleryActivity"
-    tools:showIn="@layout/app_bar_main2">
+    tools:showIn="@layout/app_bar_main">
 
     <FrameLayout
         android:id="@+id/fragment_photo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="?actionBarSize">
+        android:layout_height="match_parent">
+        <!--android:paddingTop="?actionBarSize">-->
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
