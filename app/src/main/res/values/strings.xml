@@ -8,6 +8,11 @@
     <string name="dialog_button_cancel">Cancel</string>
     <string name="context_menu_favourites">favourites</string>
     <string name="dialog_title_delete">Do you want to delete a photo?</string>
+    <string name="nav_header_title">@string/app_name</string>
+    <string name="nav_header_email">silantyevmn@yandex.ru</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
+
 
     <string-array name="theme_array">
         <item>Blue</item>
@@ -15,4 +20,5 @@
         <item>Green</item>
         <item>Orange</item>
     </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>
