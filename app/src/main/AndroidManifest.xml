@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activity.MainActivity">
+        <activity android:name=".view.activity.GaleryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,7 +20,7 @@
         </activity>
         <activity
             android:name=".view.activity.SettingsActivity"
-            android:parentActivityName=".view.activity.MainActivity"></activity>
+            android:parentActivityName=".view.activity.GaleryActivity"></activity>
     </application>
 
 </manifest>
