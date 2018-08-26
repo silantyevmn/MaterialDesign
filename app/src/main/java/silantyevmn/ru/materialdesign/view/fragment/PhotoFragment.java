@@ -53,12 +53,6 @@ public class PhotoFragment extends Fragment implements IPhotoFragment {
     public void init() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), COUNT_SPAN);
         recyclerView.setLayoutManager(gridLayoutManager);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.onClickFabButton();
-            }
-        });
     }
 
     @Override
