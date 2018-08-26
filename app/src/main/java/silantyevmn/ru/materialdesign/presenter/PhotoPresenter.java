@@ -7,9 +7,11 @@ import android.view.View;
 
 import java.util.List;
 
+import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
 import silantyevmn.ru.materialdesign.model.photo.ModelPhoto;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
+import silantyevmn.ru.materialdesign.view.DialogView;
 import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
 import silantyevmn.ru.materialdesign.view.recycler.PhotoAdapter;
 
@@ -24,8 +26,8 @@ public class PhotoPresenter {
 
     public PhotoPresenter(PhotoFragment fragment) {
         this.fragment = fragment;
-        modelPhoto=ModelPhoto.getInstance();
-        adapter = new PhotoAdapter(modelPhoto.getList(),this);
+        modelPhoto = ModelPhoto.getInstance();
+        adapter = new PhotoAdapter(modelPhoto.getList(), this);
     }
 
     private List<Photo> getPhotos() {
@@ -50,7 +52,7 @@ public class PhotoPresenter {
         photo.setLocalUri(selectedImage);
         modelPhoto.insert(photo);
         updateAdapter();
-        fragment.showLog("insert",String.valueOf(getPhotos().size()));
+        fragment.showLog("insert", String.valueOf(getPhotos().size()));
     }
 
     private void updateAdapter() {
@@ -58,15 +60,17 @@ public class PhotoPresenter {
     }
 
     public void deletePhoto(int position) {
-        modelPhoto.delete(getPhotos().get(position));
-        updateAdapter();
-        fragment.showLog("delete",String.valueOf(position));
+        new DialogView(getActivity(), getActivity().getString(R.string.dialog_title_delete), () -> {
+            modelPhoto.delete(getPhotos().get(position));
+            updateAdapter();
+            fragment.showLog("delete", String.valueOf(position));
+        });
     }
 
     public void favouritesPhoto(int position) {
         modelPhoto.favorites(getPhotos().get(position));
         updateAdapter();
-        fragment.showLog("favourites",String.valueOf(position));
+        fragment.showLog("favourites", String.valueOf(position));
     }
 
     public void onClickFabButton() {
