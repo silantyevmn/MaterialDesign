@@ -48,7 +48,7 @@ public class PhotoPresenter {
     }
 
     public void add() {
-        photoFragment.startActivityLoadPhoto();
+        photoFragment.startLoadPhoto();
     }
 
     public void delete(int position) {
