@@ -60,57 +60,30 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         return photos.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener,MenuItem.OnMenuItemClickListener{
         private ImageView imagePhoto;
         private ImageView imageFavorite;
-
-        private final MenuItem.OnMenuItemClickListener menuItemClickListener = new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                int position = getAdapterPosition();
-                switch (item.getItemId()) {
-                    case R.id.item_add: {
-                        presenter.onClickFabButton();
-                        break;
-                    }
-                    case R.id.item_delete: {
-                        presenter.deletePhoto(position);
-                        break;
-                    }
-                    case R.id.item_favourites: {
-                        presenter.favouritesPhoto(position);
-                        break;
-                    }
-                }
-                return false;
-            }
-        };
 
         MyViewHolder(final View itemView) {
             super(itemView);
             imagePhoto = itemView.findViewById(R.id.card_image_photo);
             //textPhoto = itemView.findViewById(R.id.card_text_photo);
             imageFavorite = itemView.findViewById(R.id.card_favorite);
-            //регистрируем контекст_меню
-            presenter.registerForContextMenu(itemView);
             itemView.setOnCreateContextMenuListener(this);
 
         }
 
         void bind(Photo photo) {
-            if (photo.getLocalUri() != null) {
+            if (photo.getUri() != null) {
                 Picasso.get()
-                        .load(photo.getLocalUri())
+                        .load(photo.getUri())
                         .resize(0,150)
                         .centerCrop()
                         .into(imagePhoto);
-/*                        .fit()
-                        .transform(new PicassoTransform())
-                        .into(imagePhoto);*/
             } else {
                 imagePhoto.setImageResource(R.drawable.ic_crop_original_black);
             }
-            if (photo.isFavorites()) {
+            if (photo.isFavorite()) {
                 imageFavorite.setImageResource(R.drawable.ic_favorite_red);
             } else {
                 imageFavorite.setImageResource(0);
@@ -122,13 +95,33 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             MenuInflater inflater = presenter.getActivity().getMenuInflater();
             inflater.inflate(R.menu.context_menu, contextMenu);
-            contextMenu.findItem(R.id.item_add).setOnMenuItemClickListener(menuItemClickListener);
-            contextMenu.findItem(R.id.item_delete).setOnMenuItemClickListener(menuItemClickListener);
-            contextMenu.findItem(R.id.item_favourites).setOnMenuItemClickListener(menuItemClickListener);
+            contextMenu.findItem(R.id.item_add).setOnMenuItemClickListener(this);
+            contextMenu.findItem(R.id.item_delete).setOnMenuItemClickListener(this);
+            contextMenu.findItem(R.id.item_favourite).setOnMenuItemClickListener(this);
         }
 
         public void setOnClickListener(View.OnClickListener onClickListener) {
             itemView.setOnClickListener(onClickListener);
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem item) {
+            int position = getAdapterPosition();
+            switch (item.getItemId()) {
+                case R.id.item_add: {
+                    presenter.add();
+                    break;
+                }
+                case R.id.item_delete: {
+                    presenter.delete(position);
+                    break;
+                }
+                case R.id.item_favourite: {
+                    presenter.favorite(position);
+                    break;
+                }
+            }
+            return false;
         }
     }
 
