@@ -9,6 +9,6 @@
         android:id="@+id/item_delete"
         android:title="@string/context_menu_delete" />
     <item
-        android:id="@+id/item_favourites"
-        android:title="@string/context_menu_favourites"/>
+        android:id="@+id/item_favourite"
+        android:title="@string/context_menu_favourite"/>
 </menu>
