@@ -6,7 +6,7 @@
     <string name="text_dialog_edit_item">Name photo</string>
     <string name="dialog_button_ok">Ok</string>
     <string name="dialog_button_cancel">Cancel</string>
-    <string name="context_menu_favourites">favourites</string>
+    <string name="context_menu_favourite">favourites</string>
     <string name="dialog_title_delete">Do you want to delete a photo?</string>
     <string name="nav_header_title">@string/app_name</string>
     <string name="nav_header_email">silantyevmn@yandex.ru</string>
