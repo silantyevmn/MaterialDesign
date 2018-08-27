@@ -6,7 +6,7 @@ import java.util.List;
  * Created by silan on 18.08.2018.
  */
 
-public class ModelPhoto implements IModelPhoto<Photo> {
+public class ModelPhoto implements IModelPhoto {
     private IPhotoEmmiter iPhotoEmmiter;
     private static ModelPhoto modelPhoto;
 
