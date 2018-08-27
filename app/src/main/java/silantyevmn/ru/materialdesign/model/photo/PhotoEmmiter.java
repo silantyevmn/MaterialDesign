@@ -7,7 +7,7 @@ import java.util.List;
  * Created by silan on 19.08.2018.
  */
 
-public class PhotoEmmiter implements IPhotoEmmiter<Photo> {
+public class PhotoEmmiter implements IPhotoEmmiter {
     private String[] photoName = new String[]{"фото1", "фото2", "фото3", "фото4", "фото5", "фото6", "фото7"};
     private List<Photo> arrays;
 
@@ -35,7 +35,7 @@ public class PhotoEmmiter implements IPhotoEmmiter<Photo> {
     @Override
     public void favorites(Photo photo) {
         int position=arrays.indexOf(photo);
-        photo.setFavorites(!photo.isFavorites());
+        photo.setFavorite(!photo.isFavorite());
         arrays.set(position,photo);
     }
 
