@@ -22,20 +22,14 @@ import silantyevmn.ru.materialdesign.view.recycler.PhotoAdapter;
 public class PhotoPresenter {
     private final PhotoFragment fragment;
     private final IModelPhoto modelPhoto;
-    private PhotoAdapter adapter;
 
     public PhotoPresenter(PhotoFragment fragment) {
         this.fragment = fragment;
         modelPhoto = ModelPhoto.getInstance();
-        adapter = new PhotoAdapter(modelPhoto.getList(), this);
     }
 
     private List<Photo> getPhotos() {
         return modelPhoto.getList();
-    }
-
-    public void registerForContextMenu(View itemView) {
-        fragment.registerForContextMenu(itemView);
     }
 
     public Activity getActivity() {
@@ -46,20 +40,24 @@ public class PhotoPresenter {
         fragment.showViewPhoto(adapterPosition);
     }
 
-    public void insertPhoto(Intent imageReturnedIntent) {
-        Uri selectedImage = imageReturnedIntent.getData();
-        Photo photo = new Photo(selectedImage.getHost());
-        photo.setLocalUri(selectedImage);
+    public void insert(Intent imageReturnedIntent) {
+        Uri uri = imageReturnedIntent.getData();
+        Photo photo = new Photo(uri.getLastPathSegment());
+        photo.setUri(uri);
         modelPhoto.insert(photo);
         updateAdapter();
         fragment.showLog("insert", String.valueOf(getPhotos().size()));
     }
 
     private void updateAdapter() {
-        adapter.setPhotos(getPhotos());
+       fragment.setAdapter(getPhotos());
     }
 
-    public void deletePhoto(int position) {
+    public void add() {
+        fragment.startActivityLoadPhoto();
+    }
+
+    public void delete(int position) {
         new DialogView(getActivity(), getActivity().getString(R.string.dialog_title_delete), () -> {
             modelPhoto.delete(getPhotos().get(position));
             updateAdapter();
@@ -67,18 +65,13 @@ public class PhotoPresenter {
         });
     }
 
-    public void favouritesPhoto(int position) {
+    public void favorite(int position) {
         modelPhoto.favorites(getPhotos().get(position));
         updateAdapter();
         fragment.showLog("favourites", String.valueOf(position));
     }
 
-    public void onClickFabButton() {
-        fragment.startActivityLoadPhoto();
-    }
-
     public void onViewCreated() {
-        fragment.init();
-        fragment.setAdapter(adapter);
+        fragment.init(getPhotos());
     }
 }
