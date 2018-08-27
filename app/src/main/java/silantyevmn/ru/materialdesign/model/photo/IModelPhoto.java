@@ -6,9 +6,9 @@ import java.util.List;
  * Created by silan on 23.08.2018.
  */
 
-public interface IModelPhoto<T> {
-    List<T> getList();
-    void insert(T t);
-    void delete(T t);
-    void favorites(T t);
+public interface IModelPhoto {
+    List<Photo> getList();
+    void insert(Photo photo);
+    void delete(Photo photo);
+    void favorites(Photo photo);
 }
