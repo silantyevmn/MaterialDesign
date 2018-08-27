@@ -1,9 +1,6 @@
 package silantyevmn.ru.materialdesign.presenter;
 
 
-import android.view.MenuItem;
-
-import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.photo.ModelPhoto;
 import silantyevmn.ru.materialdesign.model.theme.ModelTheme;
 import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
@@ -13,22 +10,18 @@ import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
  */
 
 public class GaleryPresenter {
-    private final IGaleryView mainActivityView;
+    private final IGaleryView view;
 
-    public GaleryPresenter(IGaleryView mainActivityView) {
-        this.mainActivityView = mainActivityView;
+    public GaleryPresenter(IGaleryView view) {
+        this.view = view;
     }
 
     public void onCreate() {
-        mainActivityView.init();
-        mainActivityView.showFragment(ModelPhoto.getInstance().getList());
-    }
-
-    public void onClickFab() {
-        //todo заглушка
+        view.init();
+        view.showFragment(ModelPhoto.getInstance().getList());
     }
 
     public void onClickMenuSetting() {
-        mainActivityView.showSetting(ModelTheme.getInstance().getList());
+        view.showSetting(ModelTheme.getInstance().getList());
     }
 }
