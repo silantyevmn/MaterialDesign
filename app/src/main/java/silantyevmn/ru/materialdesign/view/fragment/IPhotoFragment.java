@@ -14,7 +14,7 @@ import silantyevmn.ru.materialdesign.view.recycler.PhotoAdapter;
 public interface IPhotoFragment {
     void showViewPhoto(int adapterPosition);
     void showLog(String title,String value);
-    void startActivityLoadPhoto();
+    void startLoadPhoto();
     void init(List<Photo> photos);
     void setAdapter(List<Photo> photos);
     Activity getActivity();
