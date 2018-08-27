@@ -14,7 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import silantyevmn.ru.materialdesign.R;
+import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
 import silantyevmn.ru.materialdesign.view.recycler.PhotoAdapter;
 
@@ -26,6 +29,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private PhotoPresenter presenter;
+    private PhotoAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,12 @@ public class PhotoFragment extends Fragment implements IPhotoFragment {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         recyclerView = rootView.findViewById(R.id.recycler);
         fab = rootView.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.add();
+            }
+        });
         return rootView;
     }
 
@@ -50,24 +60,25 @@ public class PhotoFragment extends Fragment implements IPhotoFragment {
     }
 
     @Override
-    public void init() {
+    public void init(List<Photo> photos) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), COUNT_SPAN);
         recyclerView.setLayoutManager(gridLayoutManager);
+        adapter = new PhotoAdapter(photos,presenter);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void setAdapter(PhotoAdapter adapter) {
-        recyclerView.setAdapter(adapter);
+    public void setAdapter(List<Photo> photos) {
+        adapter.setPhotos(photos);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-
         switch (requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    presenter.insertPhoto(imageReturnedIntent);
+                    presenter.insert(imageReturnedIntent);
                 }
         }
     }
@@ -89,5 +100,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment {
     @Override
     public void showViewPhoto(int adapterPosition) {
         //заглушка
+        showLog("showPhoto->",String.valueOf(adapterPosition));
     }
+
 }
