@@ -91,7 +91,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment {
     }
 
     @Override
-    public void startActivityLoadPhoto() {
+    public void startLoadPhoto() {
         Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
         photoPickerIntent.setType("image/*");
         startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
