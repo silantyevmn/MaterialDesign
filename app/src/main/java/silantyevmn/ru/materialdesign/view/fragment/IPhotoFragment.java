@@ -1,5 +1,7 @@
 package silantyevmn.ru.materialdesign.view.fragment;
 
+import android.app.Activity;
+
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.model.photo.Photo;
@@ -15,4 +17,6 @@ public interface IPhotoFragment {
     void startActivityLoadPhoto();
     void init(List<Photo> photos);
     void setAdapter(List<Photo> photos);
+    Activity getActivity();
+
 }
