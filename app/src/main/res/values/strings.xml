@@ -1,10 +1,24 @@
 <resources>
     <string name="app_name">MaterialDesign</string>
     <string name="action_settings">Settings</string>
+    <string name="context_menu_add">add</string>
+    <string name="context_menu_delete">delete</string>
+    <string name="text_dialog_edit_item">Name photo</string>
+    <string name="dialog_button_ok">Ok</string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="context_menu_favourite">favourites</string>
+    <string name="dialog_title_delete">Do you want to delete a photo?</string>
+    <string name="nav_header_title">@string/app_name</string>
+    <string name="nav_header_email">silantyevmn@yandex.ru</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
+
+
     <string-array name="theme_array">
         <item>Blue</item>
         <item>Red</item>
         <item>Green</item>
         <item>Orange</item>
     </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
 </resources>

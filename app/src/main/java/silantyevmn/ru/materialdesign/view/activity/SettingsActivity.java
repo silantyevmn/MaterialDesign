@@ -3,6 +3,7 @@ package silantyevmn.ru.materialdesign.view.activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,7 +13,7 @@ import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.entity.Theme;
+import silantyevmn.ru.materialdesign.model.theme.Theme;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String LIST_THEMES = "list_themes";
@@ -24,9 +25,10 @@ public class SettingsActivity extends AppCompatActivity {
         setTheme(DataSharedPreference.getInstance().getCurrentTheme());
         setContentView(R.layout.activity_settings);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         //добавляем в АппБар кнопку назад
-        ActionBar bar = getSupportActionBar();
-        bar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         List<Theme> themes = (List<Theme>) getIntent().getSerializableExtra(LIST_THEMES);
         init(themes);
@@ -61,9 +63,9 @@ public class SettingsActivity extends AppCompatActivity {
         recreate();
     }
 
-   /* //обработка клавиши назад
+    //обработка клавиши назад
     @Override
     public void onBackPressed() {
         SettingsActivity.this.finish();
-    }*/
+    }
 }

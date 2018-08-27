@@ -1,40 +1,31 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="silantyevmn.ru.materialdesign.view.fragment.MainFragment">
+    android:layout_height="@dimen/card_image_min_height"
+    tools:context=".view.activity.GaleryActivity">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/card_margin_default">
 
-        <LinearLayout
+
+        <ImageView
+            android:id="@+id/card_image_photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/ic_crop_original_black" />
 
-            <ImageView
-                android:id="@+id/card_image_photo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minWidth="@dimen/card_image_min_width"
-                android:minHeight="@dimen/card_image_min_height"
-                android:layout_weight="3"
-                app:srcCompat="@drawable/ic_crop_original_black_24dp" />
-
-            <TextView
-                android:id="@+id/card_text_photo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:textSize="@dimen/card_text_size_default"
-                android:text="Название" />
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/card_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="@dimen/margin5"/>
 
     </android.support.v7.widget.CardView>
 
-</FrameLayout>
+</android.support.design.widget.CoordinatorLayout>
