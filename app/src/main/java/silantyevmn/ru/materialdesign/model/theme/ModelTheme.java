@@ -6,7 +6,7 @@ import java.util.List;
  * Created by silan on 18.08.2018.
  */
 
-public class ModelTheme {
+public class ModelTheme implements IModelTheme{
     private static ModelTheme modelTheme;
     private IModelTheme iModel;
 
