@@ -28,11 +28,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
 
     public PhotoAdapter(List<Photo> photos, PhotoPresenter presenter) {
         this.photos = photos;
-        this.presenter=presenter;
+        this.presenter = presenter;
     }
 
-    public void setPhotos(List<Photo> photos){
-        this.photos=photos;
+    public void setPhotos(List<Photo> photos) {
+        this.photos = photos;
         notifyDataSetChanged();
     }
 
@@ -40,19 +40,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_main_item, parent, false);
-        MyViewHolder pvh = new MyViewHolder(rootView);
-        return pvh;
+        return new MyViewHolder(rootView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         holder.bind(photos.get(position));
-        holder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.onClickPhoto(position);
-            }
-        });
     }
 
     @Override
@@ -60,7 +53,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         return photos.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener,MenuItem.OnMenuItemClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         private ImageView imagePhoto;
         private ImageView imageFavorite;
 
@@ -70,6 +63,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
             //textPhoto = itemView.findViewById(R.id.card_text_photo);
             imageFavorite = itemView.findViewById(R.id.card_favorite);
             itemView.setOnCreateContextMenuListener(this);
+            itemView.setOnClickListener(this);
 
         }
 
@@ -77,7 +71,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
             if (photo.getUri() != null) {
                 Picasso.get()
                         .load(photo.getUri())
-                        .resize(0,150)
+                        .resize(0, 150)
                         .centerCrop()
                         .into(imagePhoto);
             } else {
@@ -93,15 +87,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            MenuInflater inflater = presenter.getActivity().getMenuInflater();
+            MenuInflater inflater = new MenuInflater(view.getContext());
             inflater.inflate(R.menu.context_menu, contextMenu);
             contextMenu.findItem(R.id.item_add).setOnMenuItemClickListener(this);
             contextMenu.findItem(R.id.item_delete).setOnMenuItemClickListener(this);
             contextMenu.findItem(R.id.item_favourite).setOnMenuItemClickListener(this);
-        }
-
-        public void setOnClickListener(View.OnClickListener onClickListener) {
-            itemView.setOnClickListener(onClickListener);
         }
 
         @Override
@@ -123,11 +113,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
             }
             return false;
         }
-    }
 
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
+        @Override
+        public void onClick(View view) {
+            presenter.onClickPhoto(getAdapterPosition());
+        }
     }
 }
 
