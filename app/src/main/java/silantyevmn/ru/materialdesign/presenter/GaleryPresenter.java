@@ -1,7 +1,13 @@
 package silantyevmn.ru.materialdesign.presenter;
 
 
+import android.content.Intent;
+import android.net.Uri;
+
+import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
 import silantyevmn.ru.materialdesign.model.photo.ModelPhoto;
+import silantyevmn.ru.materialdesign.model.photo.Photo;
+import silantyevmn.ru.materialdesign.model.theme.IModelTheme;
 import silantyevmn.ru.materialdesign.model.theme.ModelTheme;
 import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
 
@@ -11,17 +17,21 @@ import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
 
 public class GaleryPresenter {
     private final IGaleryView view;
+    private final IModelPhoto modelPhoto;
+    private final IModelTheme modelTheme;
 
     public GaleryPresenter(IGaleryView view) {
         this.view = view;
+        modelPhoto=ModelPhoto.getInstance();
+        modelTheme=ModelTheme.getInstance();
     }
 
     public void onCreate() {
         view.init();
-        view.showFragment(ModelPhoto.getInstance().getList());
+        view.showFragment(modelPhoto.getList());
     }
 
     public void onClickMenuSetting() {
-        view.showSetting(ModelTheme.getInstance().getList());
+        view.showSetting(modelTheme.getList());
     }
 }
