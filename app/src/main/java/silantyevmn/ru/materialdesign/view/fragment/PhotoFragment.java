@@ -30,7 +30,7 @@ import silantyevmn.ru.materialdesign.view.recycler.PhotoAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PhotoFragment extends Fragment implements IPhotoFragment {
+public class PhotoFragment extends Fragment implements IPhotoFragment,PhotoAdapter.OnClickAdapter {
     private static final int GALLERY_REQUEST = 1;
     private static final int REQUEST_TAKE_PHOTO = 3;
     private final int COUNT_SPAN = 3; //количество фото в строке
@@ -92,7 +92,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment {
     public void init(List<Photo> photos) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), COUNT_SPAN);
         recyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new PhotoAdapter(photos, presenter);
+        adapter = new PhotoAdapter(photos, this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -163,4 +163,23 @@ public class PhotoFragment extends Fragment implements IPhotoFragment {
 
     }
 
+    @Override
+    public void onClickPhoto(int position) {
+        presenter.onClickPhoto(position);
+    }
+
+    @Override
+    public void onClickMenuAdd() {
+        presenter.addPhoto();
+    }
+
+    @Override
+    public void onClickMenuDelete(int position) {
+        presenter.delete(position);
+    }
+
+    @Override
+    public void onClickMenuFavorite(int position) {
+        presenter.favorite(position);
+    }
 }
