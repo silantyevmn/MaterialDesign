@@ -20,5 +20,5 @@
         <item>Green</item>
         <item>Orange</item>
     </string-array>
-    <string name="title_activity_main2">Main2Activity</string>
+    <string name="context_menu_add_camera">add_camera</string>
 </resources>
