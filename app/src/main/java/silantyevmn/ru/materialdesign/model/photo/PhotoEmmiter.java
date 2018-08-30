@@ -41,7 +41,7 @@ public class PhotoEmmiter implements IPhotoEmmiter {
     @Override
     public void delete(Photo photo) {
         arrays.remove(photo);
-        fileOperation.deleteFile(photo);
+        //fileOperation.deleteFile(photo);
         DataSharedPreference.getInstance().deleteFavorite(photo.getName());
     }
 
