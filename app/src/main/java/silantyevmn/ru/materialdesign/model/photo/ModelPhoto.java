@@ -10,8 +10,8 @@ public class ModelPhoto implements IModelPhoto {
     private IPhotoEmmiter iPhotoEmmiter;
     private static ModelPhoto modelPhoto;
 
-    private ModelPhoto(){
-        iPhotoEmmiter =new PhotoEmmiter();
+    private ModelPhoto() {
+        iPhotoEmmiter = new PhotoEmmiter();
     }
 
     @Override
@@ -34,13 +34,13 @@ public class ModelPhoto implements IModelPhoto {
         iPhotoEmmiter.favorites(photo);
     }
 
-    public static ModelPhoto getInstance(){
+    public static ModelPhoto getInstance() {
         return modelPhoto;
     }
 
     public static void init() {
-        if(modelPhoto==null){
-            modelPhoto=new ModelPhoto();
+        if (modelPhoto == null) {
+            modelPhoto = new ModelPhoto();
         }
     }
 }
