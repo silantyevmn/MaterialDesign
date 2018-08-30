@@ -29,6 +29,10 @@ public class PhotoPresenter {
         this.view = photoFragment;
         model = ModelPhoto.getInstance();
     }
+    //создание View
+    public void onViewCreated() {
+        view.init(getPhotos());
+    }
 
     private List<Photo> getPhotos() {
         return model.getList();
@@ -61,10 +65,6 @@ public class PhotoPresenter {
         model.insert(photo);
         view.showLog("insert", String.valueOf(getPhotos().size()));
         updateAdapter();
-    }
-
-    public void onViewCreated() {
-        view.init(getPhotos());
     }
 
     public void onClickCamera() {
