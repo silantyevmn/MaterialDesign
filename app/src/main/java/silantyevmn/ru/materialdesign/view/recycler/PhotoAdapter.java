@@ -99,7 +99,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
             int position = getAdapterPosition();
             switch (item.getItemId()) {
                 case R.id.item_add: {
-                    presenter.add();
+                    presenter.addPhoto();
                     break;
                 }
                 case R.id.item_delete: {
