@@ -12,11 +12,12 @@ import silantyevmn.ru.materialdesign.view.recycler.PhotoAdapter;
  */
 
 public interface IPhotoFragment {
-    void showViewPhoto(int adapterPosition);
+    void showFullPhoto(Photo photo);
     void showLog(String title,String value);
-    void startLoadPhoto();
+    void showGalery();
     void init(List<Photo> photos);
     void setAdapter(List<Photo> photos);
     Activity getActivity();
+    void showCamera();
 
 }
