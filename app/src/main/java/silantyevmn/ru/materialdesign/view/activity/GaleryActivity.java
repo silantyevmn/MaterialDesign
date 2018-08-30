@@ -26,6 +26,7 @@ public class GaleryActivity extends AppCompatActivity
     private final GaleryPresenter presenter;
     private final int SETTING_REQUEST = 2;
     private DrawerLayout drawer;
+    private static final String TAG="fragmentPhoto";
 
     public GaleryActivity() {
         presenter = new GaleryPresenter(this);
@@ -92,11 +93,14 @@ public class GaleryActivity extends AppCompatActivity
 
     @Override
     public void showFragment(List<Photo> photos) {
-        PhotoFragment mainFragment = new PhotoFragment();
-        //запускаем транзакцию и добавляем фрагмент
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_photo, mainFragment)
-                .commit();
+        PhotoFragment photoFragment = (PhotoFragment) getSupportFragmentManager().findFragmentByTag(TAG);
+        if(photoFragment==null) {
+            photoFragment = new PhotoFragment();
+            //запускаем транзакцию и добавляем фрагмент
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_photo, photoFragment, TAG)
+                    .commit();
+        }
     }
 
     @Override
