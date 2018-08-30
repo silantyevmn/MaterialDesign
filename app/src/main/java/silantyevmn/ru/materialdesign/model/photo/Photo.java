@@ -9,10 +9,15 @@ import android.net.Uri;
 public class Photo {
     private String name;
     private boolean isFavorite;
-    private Uri uri=null;
+    private String uri=null;
 
     public Photo(String name) {
         this.name = name;
+    }
+
+    public Photo(String name, String uri) {
+        this.name = name;
+        this.uri=uri;
     }
 
     public boolean isFavorite() {
@@ -23,11 +28,11 @@ public class Photo {
         isFavorite = favorite;
     }
 
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 
