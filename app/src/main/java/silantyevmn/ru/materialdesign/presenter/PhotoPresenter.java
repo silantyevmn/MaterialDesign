@@ -3,9 +3,13 @@ package silantyevmn.ru.materialdesign.presenter;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
+import silantyevmn.ru.materialdesign.model.DataSharedPreference;
+import silantyevmn.ru.materialdesign.model.photo.FileOperation;
 import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
 import silantyevmn.ru.materialdesign.model.photo.ModelPhoto;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
@@ -18,54 +22,68 @@ import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
  */
 
 public class PhotoPresenter {
-    private final IPhotoFragment photoFragment;
-    private final IModelPhoto modelPhoto;
+    private final IPhotoFragment view;
+    private final IModelPhoto model;
 
     public PhotoPresenter(PhotoFragment photoFragment) {
-        this.photoFragment = photoFragment;
-        modelPhoto = ModelPhoto.getInstance();
+        this.view = photoFragment;
+        model = ModelPhoto.getInstance();
     }
 
     private List<Photo> getPhotos() {
-        return modelPhoto.getList();
-    }
-
-    public void onClickPhoto(int adapterPosition) {
-        photoFragment.showViewPhoto(adapterPosition);
-    }
-
-    public void insert(Intent imageReturnedIntent) {
-        Uri uri = imageReturnedIntent.getData();
-        Photo photo = new Photo(uri.getLastPathSegment());
-        photo.setUri(uri);
-        modelPhoto.insert(photo);
-        updateAdapter();
-        photoFragment.showLog("insert", String.valueOf(getPhotos().size()));
+        return model.getList();
     }
 
     private void updateAdapter() {
-       photoFragment.setAdapter(getPhotos());
+        view.setAdapter(getPhotos());
     }
 
-    public void add() {
-        photoFragment.startLoadPhoto();
+    public void addPhoto() {
+        view.showGalery();
     }
 
     public void delete(int position) {
-        new DialogView(photoFragment.getActivity(), photoFragment.getActivity().getString(R.string.dialog_title_delete), () -> {
-            modelPhoto.delete(getPhotos().get(position));
+        new DialogView(view.getActivity(), view.getActivity().getString(R.string.dialog_title_delete), () -> {
+            model.delete(getPhotos().get(position));
             updateAdapter();
-            photoFragment.showLog("delete", String.valueOf(position));
+            view.showLog("delete", String.valueOf(position));
         });
     }
 
     public void favorite(int position) {
-        modelPhoto.favorites(getPhotos().get(position));
+        model.favorites(getPhotos().get(position));
         updateAdapter();
-        photoFragment.showLog("favourites", String.valueOf(position));
+        view.showLog("favourites", String.valueOf(position));
+    }
+
+    public void insert(String uriString) {
+        Photo photo = new Photo(Uri.parse(uriString).getLastPathSegment(),uriString);
+        model.insert(photo);
+        view.showLog("insert", String.valueOf(getPhotos().size()));
+        updateAdapter();
     }
 
     public void onViewCreated() {
-        photoFragment.init(getPhotos());
+        view.init(getPhotos());
+    }
+
+    public void onClickCamera() {
+        view.showCamera();
+    }
+
+    public void onClickGalery() {
+        view.showGalery();
+    }
+
+    public void onClickPhoto(int adapterPosition) {
+        view.showFullPhoto(getPhotos().get(adapterPosition));
+    }
+
+    public void insertCamera(String s) {
+        //todo нужно сохранить в директорию, а как вытащить имя файла пока не знаю...
+        Photo photo=new Photo(Uri.parse(s).getLastPathSegment(),s);
+        model.insert(photo);
+        view.showLog("insert", String.valueOf(getPhotos().size()));
+        updateAdapter();
     }
 }
