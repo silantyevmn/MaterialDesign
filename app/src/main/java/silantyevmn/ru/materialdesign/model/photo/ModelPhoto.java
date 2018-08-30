@@ -7,31 +7,34 @@ import java.util.List;
  */
 
 public class ModelPhoto implements IModelPhoto {
-    private IPhotoEmmiter iPhotoEmmiter;
+    private IPhotoEmmiter photoEmmiter;
+    private IPhotoEmmiter data;
     private static ModelPhoto modelPhoto;
 
     private ModelPhoto() {
-        iPhotoEmmiter = new PhotoEmmiter();
+        photoEmmiter = new PhotoEmmiter();
+        data=new DataSource(FileOperation.getInstance());
     }
 
     @Override
     public List<Photo> getList() {
-        return iPhotoEmmiter.getList();
+        return photoEmmiter.getList();
     }
 
     @Override
     public void insert(Photo photo) {
-        iPhotoEmmiter.insert(photo);
+        photoEmmiter.insert(photo);
     }
 
     @Override
     public void delete(Photo photo) {
-        iPhotoEmmiter.delete(photo);
+        photoEmmiter.delete(photo);
+        data.delete(photo);
     }
 
     @Override
     public void favorites(Photo photo) {
-        iPhotoEmmiter.favorites(photo);
+        photoEmmiter.favorites(photo);
     }
 
     public static ModelPhoto getInstance() {
