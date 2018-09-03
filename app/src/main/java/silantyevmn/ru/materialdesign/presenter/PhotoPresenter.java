@@ -60,10 +60,10 @@ public class PhotoPresenter {
         view.showLog("favourites", String.valueOf(position));
     }
 
-    public void insert(String uriString) {
+    public void insertCamera(String uriString) {
         Photo photo = new Photo(Uri.parse(uriString).getLastPathSegment(),uriString);
         model.insert(photo);
-        view.showLog("insert", String.valueOf(getPhotos().size()));
+        view.showLog("insertCamera", String.valueOf(getPhotos().size()));
         updateAdapter();
     }
 
@@ -79,11 +79,11 @@ public class PhotoPresenter {
         view.showFullPhoto(getPhotos().get(adapterPosition));
     }
 
-    public void insertCamera(String s) {
+    public void insertGalery(String s) {
         //todo нужно сохранить в директорию, а как вытащить имя файла пока не знаю...
         Photo photo=new Photo(Uri.parse(s).getLastPathSegment(),s);
         model.insert(photo);
-        view.showLog("insert", String.valueOf(getPhotos().size()));
+        view.showLog("insertCamera", String.valueOf(getPhotos().size()));
         updateAdapter();
     }
 }
