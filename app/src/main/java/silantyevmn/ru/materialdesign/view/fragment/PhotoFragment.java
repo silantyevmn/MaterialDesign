@@ -126,12 +126,13 @@ public class PhotoFragment extends Fragment implements IPhotoFragment,PhotoAdapt
         switch (requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    presenter.insertCamera(imageReturnedIntent.getData().toString());
+                    presenter.insertGalery(imageReturnedIntent.getData().toString());
                 }
                 break;
             case REQUEST_TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    presenter.insert(DataSharedPreference.getInstance().getUriCamera());
+                    //String uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file);
+                    presenter.insertCamera(DataSharedPreference.getInstance().getUriCamera());
                 } else {
                     FileOperation.getInstance().deleteNewFile();
                 }
