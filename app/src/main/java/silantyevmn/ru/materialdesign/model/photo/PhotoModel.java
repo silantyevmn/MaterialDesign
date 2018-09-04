@@ -8,12 +8,12 @@ import java.util.List;
 
 public class ModelPhoto implements IModelPhoto {
     private IPhotoEmmiter photoEmmiter;
-    private IPhotoEmmiter data;
+    private IPhotoEmmiter photoData;
     private static ModelPhoto modelPhoto;
 
     private ModelPhoto() {
         photoEmmiter = new PhotoEmmiter();
-        data=new DataSource(FileOperation.getInstance());
+        photoData = PhotoDataFile.getInstance();
     }
 
     @Override
@@ -24,17 +24,19 @@ public class ModelPhoto implements IModelPhoto {
     @Override
     public void insert(Photo photo) {
         photoEmmiter.insert(photo);
+        photoData.insert(photo);
     }
 
     @Override
     public void delete(Photo photo) {
         photoEmmiter.delete(photo);
-        data.delete(photo);
+        photoData.delete(photo);
     }
 
     @Override
     public void favorites(Photo photo) {
         photoEmmiter.favorites(photo);
+        photoData.favorites(photo);
     }
 
     public static ModelPhoto getInstance() {
