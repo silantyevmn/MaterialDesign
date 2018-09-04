@@ -1,8 +1,11 @@
 package silantyevmn.ru.materialdesign.view.fragment;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,30 +19,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.photo.FileOperation;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
+import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
+import silantyevmn.ru.materialdesign.model.photo.PhotoDataFile;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
 import silantyevmn.ru.materialdesign.view.activity.PhotoFullActivity;
-import silantyevmn.ru.materialdesign.view.recycler.PhotoAdapter;
 
 import static android.app.Activity.RESULT_OK;
 
-public class PhotoFragment extends Fragment implements IPhotoFragment,PhotoAdapter.OnClickAdapter {
+public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
     private static final int GALLERY_REQUEST = 1;
     private static final int REQUEST_TAKE_PHOTO = 3;
-    private final int COUNT_SPAN = 3; //количество фото в строке
+    private int COUNT_SPAN = 3; //количество фото в строке
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private FloatingActionButton fabCamera, fabGalery;
     private PhotoPresenter presenter;
     private PhotoAdapter adapter;
     private boolean isFABOpen = false;
+    private Handler handler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,12 +91,19 @@ public class PhotoFragment extends Fragment implements IPhotoFragment,PhotoAdapt
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.onViewCreated();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            COUNT_SPAN = 3;
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            COUNT_SPAN = 4;
+        }
+        presenter.onViewCreated(COUNT_SPAN);
+
     }
 
+
     @Override
-    public void init(List<Photo> photos) {
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), COUNT_SPAN);
+    public void init(List<Photo> photos, int span) {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), span);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new PhotoAdapter(photos, this);
         recyclerView.setAdapter(adapter);
@@ -107,12 +120,12 @@ public class PhotoFragment extends Fragment implements IPhotoFragment,PhotoAdapt
         if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
             File photoFile = null;
             try {
-                photoFile = FileOperation.getInstance().createImageFile();
+                photoFile = PhotoDataFile.getInstance().createImageFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
             if (photoFile != null) {
-                Uri photoURI = FileOperation.getInstance().getUri(photoFile);
+                Uri photoURI = PhotoDataFile.getInstance().getUriToFileProvider(getContext(), photoFile);
                 DataSharedPreference.getInstance().setUriCamera(photoURI.toString());
                 cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(cameraIntent, REQUEST_TAKE_PHOTO);
@@ -126,18 +139,52 @@ public class PhotoFragment extends Fragment implements IPhotoFragment,PhotoAdapt
         switch (requestCode) {
             case GALLERY_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    presenter.insertGalery(imageReturnedIntent.getData().toString());
+                    if (imageReturnedIntent != null) {
+                        Uri uri = imageReturnedIntent.getData();
+                        Log.i("onActivityResult", "Uri :" + uri.toString());
+                        //presenter.insertGalery(uri.toString());
+                        //тест на запись файла
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Uri newUri = writePhoto(uri);
+                                    presenter.insertGalery(newUri.toString());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                    }
                 }
                 break;
             case REQUEST_TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    //String uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, file);
                     presenter.insertCamera(DataSharedPreference.getInstance().getUriCamera());
+                    Log.i("onActivityResult", "Uri :" + DataSharedPreference.getInstance().getUriCamera());
                 } else {
-                    FileOperation.getInstance().deleteNewFile();
+                    presenter.delete(-1);
                 }
                 break;
         }
+    }
+
+    private Uri writePhoto(Uri uri) throws IOException {
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+        if (bitmap == null) {
+            return null;
+        }
+
+        File file = PhotoDataFile.getInstance().createImageFile();
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(bytes.toByteArray());
+        fos.close();
+        return Uri.fromFile(file);
     }
 
     @Override
@@ -167,11 +214,6 @@ public class PhotoFragment extends Fragment implements IPhotoFragment,PhotoAdapt
     @Override
     public void onClickPhoto(int position) {
         presenter.onClickPhoto(position);
-    }
-
-    @Override
-    public void onClickMenuAdd() {
-        presenter.addPhoto();
     }
 
     @Override
