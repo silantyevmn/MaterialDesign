@@ -1,4 +1,4 @@
-package silantyevmn.ru.materialdesign.view.recycler;
+package silantyevmn.ru.materialdesign.model.photo;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
-import silantyevmn.ru.materialdesign.model.photo.Photo;
 
 /**
  * Created by silan on 25.08.2018.
@@ -27,8 +26,9 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
 
     public interface OnClickAdapter {
         void onClickPhoto(int position);
-        void onClickMenuAdd();
+
         void onClickMenuDelete(int position);
+
         void onClickMenuFavorite(int position);
     }
 
@@ -59,7 +59,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         return photos.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         private ImageView imagePhoto;
         private ImageView imageFavorite;
 
@@ -74,15 +74,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         }
 
         void bind(Photo photo) {
-            if (photo.getUri() != null) {
-                Picasso.get()
-                        .load(photo.getUri())
-                        .resize(0, 150)
-                        .centerCrop()
-                        .into(imagePhoto);
-            } else {
-                imagePhoto.setImageResource(R.drawable.ic_crop_original_black);
-            }
+            Picasso.get()
+                    .load(photo.getUri())
+                    .placeholder(R.drawable.ic_autorenew_black)
+                    .error(R.drawable.ic_crop_original_black)
+                    .resize(0, 150)
+                    .centerCrop()
+                    .into(imagePhoto);
             if (photo.isFavorite()) {
                 imageFavorite.setImageResource(R.drawable.ic_favorite_red);
             } else {
@@ -103,10 +101,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         public boolean onMenuItemClick(MenuItem item) {
             int position = getAdapterPosition();
             switch (item.getItemId()) {
-                case R.id.item_add: {
-                    listener.onClickMenuAdd();
-                    break;
-                }
                 case R.id.item_delete: {
                     listener.onClickMenuDelete(position);
                     break;
