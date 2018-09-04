@@ -6,12 +6,12 @@ import java.util.List;
  * Created by silan on 18.08.2018.
  */
 
-public class ModelPhoto implements IModelPhoto {
+public class PhotoModel implements IModelPhoto {
     private IPhotoEmmiter photoEmmiter;
     private IPhotoEmmiter photoData;
-    private static ModelPhoto modelPhoto;
+    private static PhotoModel modelPhoto;
 
-    private ModelPhoto() {
+    private PhotoModel() {
         photoEmmiter = new PhotoEmmiter();
         photoData = PhotoDataFile.getInstance();
     }
@@ -39,13 +39,13 @@ public class ModelPhoto implements IModelPhoto {
         photoData.favorites(photo);
     }
 
-    public static ModelPhoto getInstance() {
+    public static PhotoModel getInstance() {
         return modelPhoto;
     }
 
     public static void init() {
         if (modelPhoto == null) {
-            modelPhoto = new ModelPhoto();
+            modelPhoto = new PhotoModel();
         }
     }
 }
