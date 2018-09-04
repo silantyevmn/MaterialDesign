@@ -12,10 +12,10 @@ import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 
 public class PhotoEmmiter implements IPhotoEmmiter {
     private List<Photo> arrays;
-    private FileOperation fileOperation;
+    private PhotoDataFile fileOperation;
 
     public PhotoEmmiter(){
-        fileOperation=FileOperation.getInstance();
+        fileOperation= PhotoDataFile.getInstance();
         init();
     }
 
@@ -29,6 +29,7 @@ public class PhotoEmmiter implements IPhotoEmmiter {
         arrays = new ArrayList<>();
         for (File file : fileOperation.getStorageDir().listFiles()) {
             Photo photo=new Photo(file.getName(),fileOperation.getUri(file).toString());
+            //Photo photo=new Photo(file.getName(),file.getAbsolutePath());
             boolean favorite=DataSharedPreference.getInstance().getFavorite(photo.getName());
             if(favorite){
                 photo.setFavorite(true);
@@ -57,7 +58,6 @@ public class PhotoEmmiter implements IPhotoEmmiter {
     @Override
     public void insert(Photo photo) {
         arrays.add(photo);
-        fileOperation.insert(photo);
     }
 
 
