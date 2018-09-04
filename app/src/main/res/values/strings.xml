@@ -21,4 +21,5 @@
         <item>Orange</item>
     </string-array>
     <string name="context_menu_add_camera">add_camera</string>
+    <string name="file_provider">"com.example.android.provider"</string>
 </resources>
