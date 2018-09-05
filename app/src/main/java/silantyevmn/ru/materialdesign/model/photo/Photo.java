@@ -1,7 +1,5 @@
 package silantyevmn.ru.materialdesign.model.photo;
 
-import android.net.Uri;
-
 /**
  * Created by silan on 18.08.2018.
  */
@@ -9,15 +7,11 @@ import android.net.Uri;
 public class Photo {
     private String name;
     private boolean isFavorite;
-    private String uri=null;
-
-    public Photo(String name) {
-        this.name = name;
-    }
+    private String uri = null;
 
     public Photo(String name, String uri) {
         this.name = name;
-        this.uri=uri;
+        this.uri = uri;
     }
 
     public boolean isFavorite() {

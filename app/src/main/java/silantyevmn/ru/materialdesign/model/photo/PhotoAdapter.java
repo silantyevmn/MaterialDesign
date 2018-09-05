@@ -1,4 +1,4 @@
-package silantyevmn.ru.materialdesign.view.recycler;
+package silantyevmn.ru.materialdesign.model.photo;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,20 +15,26 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
-import silantyevmn.ru.materialdesign.model.photo.Photo;
-import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
 
 /**
  * Created by silan on 25.08.2018.
  */
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder> {
-    private final PhotoPresenter presenter;
+    private final OnClickAdapter listener;
     private List<Photo> photos;
 
-    public PhotoAdapter(List<Photo> photos, PhotoPresenter presenter) {
+    public interface OnClickAdapter {
+        void onClickPhoto(int position);
+
+        void onClickMenuDelete(int position);
+
+        void onClickMenuFavorite(int position);
+    }
+
+    public PhotoAdapter(List<Photo> photos, OnClickAdapter listener) {
         this.photos = photos;
-        this.presenter = presenter;
+        this.listener = listener;
     }
 
     public void setPhotos(List<Photo> photos) {
@@ -53,7 +59,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         return photos.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         private ImageView imagePhoto;
         private ImageView imageFavorite;
 
@@ -68,15 +74,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         }
 
         void bind(Photo photo) {
-            if (photo.getUri() != null) {
-                Picasso.get()
-                        .load(photo.getUri())
-                        .resize(0, 150)
-                        .centerCrop()
-                        .into(imagePhoto);
-            } else {
-                imagePhoto.setImageResource(R.drawable.ic_crop_original_black);
-            }
+            Picasso.get()
+                    .load(photo.getUri())
+                    .placeholder(R.drawable.ic_autorenew_black)
+                    .error(R.drawable.ic_crop_original_black)
+                    .resize(0, 150)
+                    .centerCrop()
+                    .into(imagePhoto);
             if (photo.isFavorite()) {
                 imageFavorite.setImageResource(R.drawable.ic_favorite_red);
             } else {
@@ -89,7 +93,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
             MenuInflater inflater = new MenuInflater(view.getContext());
             inflater.inflate(R.menu.context_menu, contextMenu);
-            contextMenu.findItem(R.id.item_add).setOnMenuItemClickListener(this);
             contextMenu.findItem(R.id.item_delete).setOnMenuItemClickListener(this);
             contextMenu.findItem(R.id.item_favourite).setOnMenuItemClickListener(this);
         }
@@ -98,16 +101,12 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         public boolean onMenuItemClick(MenuItem item) {
             int position = getAdapterPosition();
             switch (item.getItemId()) {
-                case R.id.item_add: {
-                    presenter.addPhoto();
-                    break;
-                }
                 case R.id.item_delete: {
-                    presenter.delete(position);
+                    listener.onClickMenuDelete(position);
                     break;
                 }
                 case R.id.item_favourite: {
-                    presenter.favorite(position);
+                    listener.onClickMenuFavorite(position);
                     break;
                 }
             }
@@ -116,7 +115,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
 
         @Override
         public void onClick(View view) {
-            presenter.onClickPhoto(getAdapterPosition());
+            listener.onClickPhoto(getAdapterPosition());
         }
     }
 }
