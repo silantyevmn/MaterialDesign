@@ -1,12 +1,8 @@
 package silantyevmn.ru.materialdesign.presenter;
 
 
-import android.content.Intent;
-import android.net.Uri;
-
 import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
-import silantyevmn.ru.materialdesign.model.photo.ModelPhoto;
-import silantyevmn.ru.materialdesign.model.photo.Photo;
+import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.model.theme.IModelTheme;
 import silantyevmn.ru.materialdesign.model.theme.ModelTheme;
 import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
@@ -22,7 +18,7 @@ public class GaleryPresenter {
 
     public GaleryPresenter(IGaleryView view) {
         this.view = view;
-        modelPhoto=ModelPhoto.getInstance();
+        modelPhoto= PhotoModel.getInstance();
         modelTheme=ModelTheme.getInstance();
     }
 
