@@ -6,6 +6,8 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.io.Serializable;
 import java.util.List;
@@ -133,5 +136,24 @@ public class GaleryActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //добавляем TabLayout
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position=tab.getPosition();
+                Snackbar.make(getCurrentFocus(),"position: "+position,Snackbar.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                Snackbar.make(tabLayout.getRootView(),"onTabUnselected",Snackbar.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                Snackbar.make(tabLayout.getRootView(),"onTabReselected",Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 }
