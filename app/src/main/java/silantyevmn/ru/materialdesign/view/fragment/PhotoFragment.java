@@ -51,6 +51,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new PhotoPresenter(this);
+        Log.i("PhotoFragment","onCreate");
     }
 
     @Override
