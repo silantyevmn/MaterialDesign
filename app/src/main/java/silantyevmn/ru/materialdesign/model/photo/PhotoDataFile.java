@@ -71,6 +71,11 @@ public class PhotoDataFile implements IPhotoEmmiter {
 
     }
 
+    @Override
+    public List<Photo> getListFavorite() {
+        return null;
+    }
+
     public static PhotoDataFile getInstance() {
         return fileOperation;
     }
