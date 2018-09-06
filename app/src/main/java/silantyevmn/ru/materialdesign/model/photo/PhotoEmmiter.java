@@ -54,6 +54,17 @@ public class PhotoEmmiter implements IPhotoEmmiter {
         DataSharedPreference.getInstance().setFavorite(photo.getName(),photo.isFavorite());
     }
 
+    @Override
+    public List<Photo> getListFavorite() {
+        List<Photo> photoFavoriteList=new ArrayList<>();
+        for (Photo photo : arrays) {
+            if(photo.isFavorite()){
+                photoFavoriteList.add(photo);
+            }
+        }
+        return photoFavoriteList;
+    }
+
 
     @Override
     public void insert(Photo photo) {
