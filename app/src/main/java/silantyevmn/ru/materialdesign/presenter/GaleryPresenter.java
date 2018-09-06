@@ -24,10 +24,18 @@ public class GaleryPresenter {
 
     public void onCreate() {
         view.init();
-        view.showFragment(modelPhoto.getList());
+        selectFragmentHome();
     }
 
     public void onClickMenuSetting() {
         view.showSetting(modelTheme.getList());
+    }
+
+    public void selectFragmentHome() {
+        view.showFragmentHome(modelPhoto.getList());
+    }
+
+    public void selectFragmentFavorite() {
+        view.showFragmentFavorite(modelPhoto.getListFavorite());
     }
 }
