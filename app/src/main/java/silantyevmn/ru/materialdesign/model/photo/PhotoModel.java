@@ -39,6 +39,11 @@ public class PhotoModel implements IModelPhoto {
         photoData.favorites(photo);
     }
 
+    @Override
+    public List<Photo> getListFavorite() {
+        return photoEmmiter.getListFavorite();
+    }
+
     public static PhotoModel getInstance() {
         return modelPhoto;
     }
