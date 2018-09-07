@@ -93,9 +93,9 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            COUNT_SPAN = 3;
+            COUNT_SPAN = 2;
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            COUNT_SPAN = 4;
+            COUNT_SPAN = 3;
         }
         presenter.onViewCreated(COUNT_SPAN);
 
