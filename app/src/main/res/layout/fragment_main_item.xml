@@ -19,12 +19,29 @@
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_crop_original_black" />
 
-        <ImageView
-            android:id="@+id/card_favorite"
-            android:layout_width="wrap_content"
+
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_margin="@dimen/margin5"/>
+            android:layout_gravity="bottom"
+            android:background="@color/colorBagroundImageFavorite">
+
+            <TextView
+                android:id="@+id/card_item_text"
+                style="@style/CardViewTitleBotton.Text.White"
+                android:layout_width="@dimen/card_image_title_text_width"
+                android:layout_height="wrap_content"
+                android:text="111" />
+
+            <ImageView
+                android:id="@+id/cart_item_favorite"
+                style="@style/CardViewTitleBotton.Favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_favorite_border_white" />
+
+        </FrameLayout>
+
 
     </android.support.v7.widget.CardView>
 
