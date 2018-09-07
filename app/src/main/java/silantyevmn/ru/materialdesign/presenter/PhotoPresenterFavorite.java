@@ -28,8 +28,8 @@ public class PhotoPresenterFavorite {
         model = PhotoModel.getInstance();
     }
     //создание View
-    public void onViewCreated(int span) {
-        view.init(getPhotos(),span);
+    public void onViewCreated() {
+        view.init(getPhotos());
     }
 
     private List<Photo> getPhotos() {
@@ -62,5 +62,9 @@ public class PhotoPresenterFavorite {
 
     public void onClickPhoto(int adapterPosition) {
         view.showFullPhoto(getPhotos().get(adapterPosition));
+    }
+
+    public int getGridLayoutManagerSpan(int orientation) {
+       return model.getGridLayoutManagerSpan(orientation);
     }
 }

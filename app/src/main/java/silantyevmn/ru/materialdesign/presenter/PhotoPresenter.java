@@ -26,8 +26,8 @@ public class PhotoPresenter {
         model = PhotoModel.getInstance();
     }
     //создание View
-    public void onViewCreated(int span) {
-        view.init(getPhotos(),span);
+    public void onViewCreated() {
+        view.init(getPhotos());
     }
 
     private List<Photo> getPhotos() {
@@ -82,5 +82,9 @@ public class PhotoPresenter {
         model.insert(photo);
         view.showLog("insertGalery", String.valueOf(getPhotos().size()));
         updateAdapter();
+    }
+
+    public int getGridLayoutManagerSpan(int orientation) {
+        return model.getGridLayoutManagerSpan(orientation);
     }
 }

@@ -13,4 +13,6 @@ public interface IModelPhoto {
     void favorites(Photo photo);
 
     List<Photo> getListFavorite();
+
+    int getGridLayoutManagerSpan(int orientation);
 }
