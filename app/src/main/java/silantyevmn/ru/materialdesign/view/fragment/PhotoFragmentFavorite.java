@@ -38,13 +38,10 @@ import silantyevmn.ru.materialdesign.view.activity.PhotoFullActivity;
 import static android.app.Activity.RESULT_OK;
 
 public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFavorite, PhotoAdapter.OnClickAdapter {
-    private static final int GALLERY_REQUEST = 1;
-    private static final int REQUEST_TAKE_PHOTO = 3;
-    private int COUNT_SPAN = 3; //количество фото в строке
+    private int COUNT_SPAN = 2; //количество фото в строке
     private RecyclerView recyclerView;
     private PhotoPresenterFavorite presenter;
     private PhotoAdapter adapter;
-    private Handler handler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,9 +63,9 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFav
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            COUNT_SPAN = 3;
+            COUNT_SPAN = 2;
         } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            COUNT_SPAN = 4;
+            COUNT_SPAN = 3;
         }
         presenter.onViewCreated(COUNT_SPAN);
 
