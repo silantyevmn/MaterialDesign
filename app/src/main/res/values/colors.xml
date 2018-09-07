@@ -16,4 +16,6 @@
     <color name="colorOrangePrimaryDark">#c77800</color>
     <color name="colorOrangeAccent">#ffd95b</color>
 
+    <color name="colorBagroundImageFavorite">#96000000</color>
+
 </resources>

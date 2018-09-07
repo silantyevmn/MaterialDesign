@@ -19,4 +19,9 @@
     <dimen name="fab_small_size">45dp</dimen>
     <dimen name="fab_size">55dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="padding12">12dp</dimen>
+    <dimen name="padding24">24dp</dimen>
+
+    <dimen name="card_image_title_text_width">90dp</dimen>
 </resources>
