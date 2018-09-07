@@ -62,18 +62,14 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFav
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            COUNT_SPAN = 2;
-        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            COUNT_SPAN = 3;
-        }
-        presenter.onViewCreated(COUNT_SPAN);
+        presenter.onViewCreated();
 
     }
 
 
     @Override
-    public void init(List<Photo> photos, int span) {
+    public void init(List<Photo> photos) {
+        int span=presenter.getGridLayoutManagerSpan(getResources().getConfiguration().orientation);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), span);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new PhotoAdapter(photos, this);

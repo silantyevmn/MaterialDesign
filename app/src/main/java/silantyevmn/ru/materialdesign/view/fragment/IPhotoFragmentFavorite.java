@@ -13,7 +13,7 @@ import silantyevmn.ru.materialdesign.model.photo.Photo;
 public interface IPhotoFragmentFavorite {
     void showFullPhoto(Photo photo);
     void showLog(String title, String value);
-    void init(List<Photo> photos, int span);
+    void init(List<Photo> photos);
     void setAdapter(List<Photo> photos);
     Activity getActivity();
 }

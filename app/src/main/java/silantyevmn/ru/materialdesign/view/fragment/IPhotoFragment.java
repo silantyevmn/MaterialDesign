@@ -14,7 +14,7 @@ public interface IPhotoFragment {
     void showFullPhoto(Photo photo);
     void showLog(String title,String value);
     void showGalery();
-    void init(List<Photo> photos, int span);
+    void init(List<Photo> photos);
     void setAdapter(List<Photo> photos);
     Activity getActivity();
     void showCamera();

@@ -138,17 +138,16 @@ public class GaleryActivity extends AppCompatActivity
                     }
                     default: break;
                 }
-                Snackbar.make(getCurrentFocus(),"position: "+position,Snackbar.LENGTH_LONG).show();
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Snackbar.make(tabLayout.getRootView(),"onTabUnselected",Snackbar.LENGTH_LONG).show();
+               //
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Snackbar.make(tabLayout.getRootView(),"onTabReselected",Snackbar.LENGTH_LONG).show();
+                //Snackbar.make(tabLayout.getRootView(),"onTabReselected",Snackbar.LENGTH_LONG).show();
             }
         });
     }
