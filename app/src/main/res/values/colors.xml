@@ -18,4 +18,8 @@
 
     <color name="colorBagroundImageFavorite">#96000000</color>
 
+    <color name="colorRed">#FFFF0000</color>
+    <color name="colorWhite">#FFFFFFFF</color>
+    <color name="colorBlack">#FF000000</color>
+
 </resources>
