@@ -42,15 +42,15 @@
         <item name="android:paddingRight">@dimen/padding12</item>
         <item name="android:paddingLeft">@dimen/padding12</item>
     </style>
-    <style name="CardViewTitleBotton.Favorite" parent="CardViewTitleBotton">
-        <item name="android:layout_gravity">end</item>
-    </style>
+
+    <style name="CardViewTitleBotton.Favorite" parent="CardViewTitleBotton"></style>
+
     <style name="CardViewTitleBotton.Text" parent="CardViewTitleBotton">
-        <item name="android:layout_gravity">start</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">false</item>
     </style>
+
     <style name="CardViewTitleBotton.Text.White" parent="CardViewTitleBotton.Text">
         <item name="android:textColor">@android:color/white</item>
     </style>
