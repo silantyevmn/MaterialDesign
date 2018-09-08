@@ -1,7 +1,6 @@
 package silantyevmn.ru.materialdesign.view;
 
 import android.app.Activity;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
 import silantyevmn.ru.materialdesign.R;
