@@ -12,9 +12,15 @@ import silantyevmn.ru.materialdesign.model.theme.Theme;
 public interface IGaleryView {
     void showSetting(List<Theme> themes);
 
-    void init();
-
     void showFragmentFavorite(List<Photo> photos);
 
     void showFragmentHome(List<Photo> photos);
+
+    void showImportCamera();
+
+    void setAdapter(List<Photo> list);
+
+    void showImportGalery();
+
+    void showLog(String title, String value);
 }
