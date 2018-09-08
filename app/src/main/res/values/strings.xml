@@ -12,6 +12,9 @@
     <string name="nav_header_email">silantyevmn@yandex.ru</string>
     <string name="navigation_drawer_open">navigation_drawer_open</string>
     <string name="navigation_drawer_close">navigation_drawer_close</string>
+    <string name="nav_camera_title">Import Camera</string>
+    <string name="nav_galery_title">Import Galery</string>
+    <string name="nav_setting_title">Settings</string>
 
 
     <string-array name="theme_array">
@@ -21,5 +24,5 @@
         <item>Orange</item>
     </string-array>
     <string name="context_menu_add_camera">add_camera</string>
-    <string name="file_provider">"com.example.android.provider"</string>
+
 </resources>

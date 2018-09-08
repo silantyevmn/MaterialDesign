@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -21,6 +22,8 @@ import silantyevmn.ru.materialdesign.R;
  */
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder> {
+    private final int IMAGE_WIDTH=0; //длина фото 0 значит, что может растягиваться по горизонтали
+    private final int IMAGE_HEIGHT=150; //высота фото
     private final OnClickAdapter listener;
     private List<Photo> photos;
 
@@ -59,17 +62,20 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
         return photos.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private ImageView imagePhoto;
         private ImageView imageFavorite;
+        private TextView textName;
 
         MyViewHolder(final View itemView) {
             super(itemView);
             imagePhoto = itemView.findViewById(R.id.card_image_photo);
-            //textPhoto = itemView.findViewById(R.id.card_text_photo);
-            imageFavorite = itemView.findViewById(R.id.card_favorite);
-            itemView.setOnCreateContextMenuListener(this);
-            itemView.setOnClickListener(this);
+            imageFavorite = itemView.findViewById(R.id.cart_item_favorite);
+            textName=itemView.findViewById(R.id.card_item_text);
+
+            imagePhoto.setOnClickListener(this);
+            imagePhoto.setOnLongClickListener(this);
+            imageFavorite.setOnClickListener(this);
 
         }
 
@@ -78,44 +84,37 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
                     .load(photo.getUri())
                     .placeholder(R.drawable.ic_autorenew_black)
                     .error(R.drawable.ic_crop_original_black)
-                    .resize(0, 150)
+                    .resize(IMAGE_WIDTH, IMAGE_HEIGHT)
                     .centerCrop()
                     .into(imagePhoto);
             if (photo.isFavorite()) {
-                imageFavorite.setImageResource(R.drawable.ic_favorite_red);
+                imageFavorite.setImageResource(R.drawable.ic_favorite_white_24dp);
             } else {
-                imageFavorite.setImageResource(0);
+                imageFavorite.setImageResource(R.drawable.ic_favorite_border_white);
             }
-            //textPhoto.setText(photo.getName());
-        }
-
-        @Override
-        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            MenuInflater inflater = new MenuInflater(view.getContext());
-            inflater.inflate(R.menu.context_menu, contextMenu);
-            contextMenu.findItem(R.id.item_delete).setOnMenuItemClickListener(this);
-            contextMenu.findItem(R.id.item_favourite).setOnMenuItemClickListener(this);
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            int position = getAdapterPosition();
-            switch (item.getItemId()) {
-                case R.id.item_delete: {
-                    listener.onClickMenuDelete(position);
-                    break;
-                }
-                case R.id.item_favourite: {
-                    listener.onClickMenuFavorite(position);
-                    break;
-                }
-            }
-            return false;
+            textName.setText(photo.getName());
         }
 
         @Override
         public void onClick(View view) {
-            listener.onClickPhoto(getAdapterPosition());
+            switch (view.getId()){
+                case R.id.card_image_photo:{
+                    listener.onClickPhoto(getAdapterPosition());
+                    break;
+                }
+                case R.id.cart_item_favorite:{
+                    listener.onClickMenuFavorite(getAdapterPosition());
+                    break;
+                }
+                default: break;
+            }
+
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            listener.onClickMenuDelete(getAdapterPosition());
+            return true;
         }
     }
 }

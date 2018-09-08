@@ -11,4 +11,8 @@ public interface IModelPhoto {
     void insert(Photo photo);
     void delete(Photo photo);
     void favorites(Photo photo);
+
+    List<Photo> getListFavorite();
+
+    int getGridLayoutManagerSpan(int orientation);
 }

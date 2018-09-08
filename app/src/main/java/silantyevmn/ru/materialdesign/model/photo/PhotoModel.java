@@ -1,5 +1,7 @@
 package silantyevmn.ru.materialdesign.model.photo;
 
+import android.content.res.Configuration;
+
 import java.util.List;
 
 /**
@@ -37,6 +39,21 @@ public class PhotoModel implements IModelPhoto {
     public void favorites(Photo photo) {
         photoEmmiter.favorites(photo);
         photoData.favorites(photo);
+    }
+
+    @Override
+    public List<Photo> getListFavorite() {
+        return photoEmmiter.getListFavorite();
+    }
+	// пока реализовал таким способом, с дальнейщей возможностью вынести количество фото в настройки
+    @Override
+    public int getGridLayoutManagerSpan(int orientation) {
+        if(orientation== Configuration.ORIENTATION_PORTRAIT){
+            return 2;
+        } else if (orientation== Configuration.ORIENTATION_LANDSCAPE){
+            return 3;
+        }
+        return 2;
     }
 
     public static PhotoModel getInstance() {

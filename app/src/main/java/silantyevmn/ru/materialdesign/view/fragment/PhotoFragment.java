@@ -51,6 +51,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new PhotoPresenter(this);
+        Log.i("PhotoFragment","onCreate");
     }
 
     @Override
@@ -91,18 +92,14 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            COUNT_SPAN = 3;
-        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            COUNT_SPAN = 4;
-        }
-        presenter.onViewCreated(COUNT_SPAN);
+        presenter.onViewCreated();
 
     }
 
 
     @Override
-    public void init(List<Photo> photos, int span) {
+    public void init(List<Photo> photos) {
+        int span=presenter.getGridLayoutManagerSpan(getResources().getConfiguration().orientation);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), span);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new PhotoAdapter(photos, this);

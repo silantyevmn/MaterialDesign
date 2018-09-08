@@ -1,16 +1,14 @@
 package silantyevmn.ru.materialdesign.view.activity;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +22,15 @@ import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.theme.Theme;
 import silantyevmn.ru.materialdesign.presenter.GaleryPresenter;
 import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
+import silantyevmn.ru.materialdesign.view.fragment.PhotoFragmentFavorite;
 
 public class GaleryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IGaleryView {
     private final GaleryPresenter presenter;
     private final int SETTING_REQUEST = 2;
     private DrawerLayout drawer;
-    private static final String TAG="fragmentPhoto";
+    private static final String PHOTO_FRAGMENT_FAVORITE_TAG ="photoFragmentFavorite";
+    private static final String PHOTO_FRAGMENT_HOME_TAG ="photoFragmentHome";
 
     public GaleryActivity() {
         presenter = new GaleryPresenter(this);
@@ -96,18 +96,6 @@ public class GaleryActivity extends AppCompatActivity
     }
 
     @Override
-    public void showFragment(List<Photo> photos) {
-        PhotoFragment photoFragment = (PhotoFragment) getSupportFragmentManager().findFragmentByTag(TAG);
-        if(photoFragment==null) {
-            photoFragment = new PhotoFragment();
-            //запускаем транзакцию и добавляем фрагмент
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_photo, photoFragment, TAG)
-                    .commit();
-        }
-    }
-
-    @Override
     public void showSetting(List<Theme> themes) {
         Intent intent = new Intent(GaleryActivity.this, SettingsActivity.class);
         intent.putExtra(SettingsActivity.LIST_THEMES, (Serializable) themes);
@@ -133,5 +121,58 @@ public class GaleryActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //добавляем TabLayout
+        TabLayout tabLayout = findViewById(R.id.tabs);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position=tab.getPosition();
+                switch (position){
+                    case 0:{
+                        presenter.selectFragmentHome();
+                        break;
+                    }
+                    case 1:{
+                        presenter.selectFragmentFavorite();
+                        break;
+                    }
+                    default: break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+               //
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                //Snackbar.make(tabLayout.getRootView(),"onTabReselected",Snackbar.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public void showFragmentFavorite(List<Photo> photos) {
+        PhotoFragmentFavorite photoFragment = (PhotoFragmentFavorite) getSupportFragmentManager().findFragmentByTag(PHOTO_FRAGMENT_FAVORITE_TAG);
+        if(photoFragment==null) {
+            photoFragment = new PhotoFragmentFavorite();
+            //запускаем транзакцию и добавляем фрагмент
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_photo, photoFragment, PHOTO_FRAGMENT_FAVORITE_TAG)
+                    .commit();
+        }
+    }
+
+    @Override
+    public void showFragmentHome(List<Photo> photos) {
+        PhotoFragment photoFragment = (PhotoFragment) getSupportFragmentManager().findFragmentByTag(PHOTO_FRAGMENT_HOME_TAG);
+        if(photoFragment==null) {
+            photoFragment = new PhotoFragment();
+            //запускаем транзакцию и добавляем фрагмент
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_photo, photoFragment, PHOTO_FRAGMENT_HOME_TAG)
+                    .commit();
+        }
     }
 }
