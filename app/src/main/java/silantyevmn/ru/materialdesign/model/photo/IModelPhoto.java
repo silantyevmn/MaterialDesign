@@ -1,5 +1,8 @@
 package silantyevmn.ru.materialdesign.model.photo;
 
+import android.content.Context;
+import android.net.Uri;
+
 import java.util.List;
 
 /**
@@ -8,11 +11,25 @@ import java.util.List;
 
 public interface IModelPhoto {
     List<Photo> getList();
+
     void insert(Photo photo);
+
     void delete(Photo photo);
-    void favorites(Photo photo);
+
+    void favorite(Photo photo);
 
     List<Photo> getListFavorite();
 
     int getGridLayoutManagerSpan(int orientation);
+
+    Uri getUriToCamera(Context context);
+
+    void setUriCamera(String photoUriCameraToString);
+
+    Uri getUriToGalery(Context context, Uri uri);
+
+    void setIdFragment(int idFragment);
+
+    int getIdFragment();
+
 }
