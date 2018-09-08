@@ -12,11 +12,12 @@ import silantyevmn.ru.materialdesign.model.photo.Photo;
 
 public interface IPhotoFragment {
     void showFullPhoto(Photo photo);
-    void showLog(String title,String value);
-    void showGalery();
-    void init(List<Photo> photos);
-    void setAdapter(List<Photo> photos);
-    Activity getActivity();
-    void showCamera();
 
+    void showLog(String title, String value);
+
+    void init(List<Photo> photos);
+
+    void setAdapter(List<Photo> photos);
+
+    Activity getActivity();
 }
