@@ -10,9 +10,7 @@ import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.view.DialogView;
-import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragment;
 import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragmentFavorite;
-import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
 import silantyevmn.ru.materialdesign.view.fragment.PhotoFragmentFavorite;
 
 /**
@@ -27,6 +25,7 @@ public class PhotoPresenterFavorite {
         this.view = photoFragment;
         model = PhotoModel.getInstance();
     }
+
     //создание View
     public void onViewCreated() {
         view.init(getPhotos());
@@ -41,9 +40,9 @@ public class PhotoPresenterFavorite {
     }
 
     public void delete(int position) {
-        if(position==-1){
-            Uri uri= Uri.parse(DataSharedPreference.getInstance().getUriCamera());
-            Photo photo = new Photo(uri.getLastPathSegment(),uri.toString());
+        if (position == -1) {
+            Uri uri = Uri.parse(DataSharedPreference.getInstance().getUriCamera());
+            Photo photo = new Photo(uri.getLastPathSegment(), uri.toString());
             model.delete(photo);
             return;
         }
@@ -55,7 +54,7 @@ public class PhotoPresenterFavorite {
     }
 
     public void favorite(int position) {
-        model.favorites(getPhotos().get(position));
+        model.favorite(getPhotos().get(position));
         updateAdapter();
         view.showLog("favourites", String.valueOf(position));
     }
@@ -65,6 +64,6 @@ public class PhotoPresenterFavorite {
     }
 
     public int getGridLayoutManagerSpan(int orientation) {
-       return model.getGridLayoutManagerSpan(orientation);
+        return model.getGridLayoutManagerSpan(orientation);
     }
 }
