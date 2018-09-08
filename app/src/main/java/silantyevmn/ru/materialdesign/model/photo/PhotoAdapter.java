@@ -19,8 +19,8 @@ import silantyevmn.ru.materialdesign.R;
  */
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder> {
-    private final int PHOTO_WIDTH =0; //длина фото 0 значит, что может растягиваться по горизонтали
-    private final int PHOTO_HEIGHT =150; //высота фото
+    private final int PHOTO_WIDTH = 0; //длина фото 0 значит, что может растягиваться по горизонтали
+    private final int PHOTO_HEIGHT = 150; //высота фото
     private final OnClickAdapter listener;
     private List<Photo> photos;
 
@@ -68,7 +68,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
             super(itemView);
             imagePhoto = itemView.findViewById(R.id.card_image_photo);
             imageFavorite = itemView.findViewById(R.id.cart_item_favorite);
-            textName=itemView.findViewById(R.id.card_item_text);
+            textName = itemView.findViewById(R.id.card_item_text);
 
             imagePhoto.setOnClickListener(this);
             imagePhoto.setOnLongClickListener(this);
@@ -94,16 +94,17 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
 
         @Override
         public void onClick(View view) {
-            switch (view.getId()){
-                case R.id.card_image_photo:{
+            switch (view.getId()) {
+                case R.id.card_image_photo: {
                     listener.onClickPhoto(getAdapterPosition());
                     break;
                 }
-                case R.id.cart_item_favorite:{
+                case R.id.cart_item_favorite: {
                     listener.onClickMenuFavorite(getAdapterPosition());
                     break;
                 }
-                default: break;
+                default:
+                    break;
             }
 
         }
