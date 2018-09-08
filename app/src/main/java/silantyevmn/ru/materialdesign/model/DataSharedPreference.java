@@ -11,6 +11,8 @@ import silantyevmn.ru.materialdesign.R;
  */
 
 public class DataSharedPreference {
+    private final String FRAGMENT_ID_KEY="fragment_id";
+    private final int FRAGMENT_ID_DEFAULT=0;
     private final String SHARED_PREFERENCES_NAME = "setting";
     private final String THEME_ID_KEY = "theme_id_key";
     private final String CAMERA_URI_KEY = "photo_camera_key";
@@ -64,11 +66,20 @@ public class DataSharedPreference {
         return sharedSettings.getBoolean(nameKey, FAVORITE_DEFAULT);
     }
 
-    public void deleteFavorite(String nameKey){
+    public void deleteFavorite(String nameKey) {
         sharedSettings.edit()
-        .remove(nameKey)
-        .apply();
+                .remove(nameKey)
+                .apply();
     }
 
 
+    public void setIdFragment(int idFragment) {
+        sharedSettings.edit()
+                .putInt(FRAGMENT_ID_KEY, idFragment)
+                .apply();
+    }
+
+    public int getIdFragment() {
+        return sharedSettings.getInt(FRAGMENT_ID_KEY,FRAGMENT_ID_DEFAULT);
+    }
 }
