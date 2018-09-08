@@ -1,5 +1,6 @@
 package silantyevmn.ru.materialdesign.presenter;
 
+import android.app.Activity;
 import android.net.Uri;
 
 import java.util.List;
@@ -7,9 +8,10 @@ import java.util.List;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
-import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
+import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.view.DialogView;
+import silantyevmn.ru.materialdesign.view.activity.GaleryActivity;
 import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragment;
 import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
 
@@ -25,6 +27,7 @@ public class PhotoPresenter {
         this.view = photoFragment;
         model = PhotoModel.getInstance();
     }
+
     //создание View
     public void onViewCreated() {
         view.init(getPhotos());
@@ -39,52 +42,48 @@ public class PhotoPresenter {
     }
 
     public void delete(int position) {
-        if(position==-1){
-            Uri uri= Uri.parse(DataSharedPreference.getInstance().getUriCamera());
-            Photo photo = new Photo(uri.getLastPathSegment(),uri.toString());
+        if (position == -1) {
+            Uri uri = Uri.parse(DataSharedPreference.getInstance().getUriCamera());
+            Photo photo = new Photo(uri.getLastPathSegment(), uri.toString());
             model.delete(photo);
             return;
         }
         new DialogView(view.getActivity(), view.getActivity().getString(R.string.dialog_title_delete), () -> {
-            model.delete(getPhotos().get(position));
+            Photo photo = getPhotos().get(position);
+            model.delete(photo);
             updateAdapter();
-            view.showLog("delete", String.valueOf(position));
+            view.showLog("delete", photo.getName() + " удалено из базы.");
         });
     }
 
     public void favorite(int position) {
-        model.favorites(getPhotos().get(position));
+        model.favorite(getPhotos().get(position));
         updateAdapter();
-        view.showLog("favourites", String.valueOf(position));
+        Photo newPhoto=getPhotos().get(position);
+        if(newPhoto.isFavorite()) {
+            view.showLog("favourites", newPhoto.getName() + " добавлено в избранное.");
+        } else {
+            view.showLog("favourites", newPhoto.getName() + " удалено из избранного.");
+        }
     }
 
-    public void insertCamera(String uriString) {
-        Photo photo = new Photo(Uri.parse(uriString).getLastPathSegment(),uriString);
-        model.insert(photo);
-        view.showLog("insertCamera", String.valueOf(getPhotos().size()));
-        updateAdapter();
-    }
-
-    public void onClickCamera() {
-        view.showCamera();
-    }
-
-    public void onClickGalery() {
-        view.showGalery();
+    public void onClickImportCamera(Activity activity) {
+        //todo test import camera
+        GaleryActivity galeryActivity = (GaleryActivity) activity;
+        galeryActivity.showImportCamera();
     }
 
     public void onClickPhoto(int adapterPosition) {
         view.showFullPhoto(getPhotos().get(adapterPosition));
     }
 
-    public void insertGalery(String uriString) {
-        Photo photo=new Photo(Uri.parse(uriString).getLastPathSegment(),uriString);
-        model.insert(photo);
-        view.showLog("insertGalery", String.valueOf(getPhotos().size()));
-        updateAdapter();
-    }
-
     public int getGridLayoutManagerSpan(int orientation) {
         return model.getGridLayoutManagerSpan(orientation);
+    }
+
+    public void onClickImportGalery(Activity activity) {
+        //todo test import galery
+        GaleryActivity galeryActivity = (GaleryActivity) activity;
+        galeryActivity.showImportGalery();
     }
 }
