@@ -1,15 +1,9 @@
 package silantyevmn.ru.materialdesign.view.fragment;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,23 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
-import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
-import silantyevmn.ru.materialdesign.model.photo.PhotoDataFile;
-import silantyevmn.ru.materialdesign.presenter.IPhotoPresenter;
-import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenterFavorite;
 import silantyevmn.ru.materialdesign.view.activity.PhotoFullActivity;
-
-import static android.app.Activity.RESULT_OK;
 
 public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFavorite, PhotoAdapter.OnClickAdapter {
     private int COUNT_SPAN = 2; //количество фото в строке
@@ -47,7 +31,7 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFav
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new PhotoPresenterFavorite(this);
-        Log.i("PhotoFragmentFavorite","onCreate");
+        Log.i("PhotoFragmentFavorite", "onCreate");
     }
 
     @Override
@@ -69,7 +53,7 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFav
 
     @Override
     public void init(List<Photo> photos) {
-        int span=presenter.getGridLayoutManagerSpan(getResources().getConfiguration().orientation);
+        int span = presenter.getGridLayoutManagerSpan(getResources().getConfiguration().orientation);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), span);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new PhotoAdapter(photos, this);
