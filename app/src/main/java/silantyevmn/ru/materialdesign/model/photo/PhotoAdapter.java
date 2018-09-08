@@ -2,10 +2,7 @@ package silantyevmn.ru.materialdesign.model.photo;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,8 +19,8 @@ import silantyevmn.ru.materialdesign.R;
  */
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder> {
-    private final int IMAGE_WIDTH=0; //длина фото 0 значит, что может растягиваться по горизонтали
-    private final int IMAGE_HEIGHT=150; //высота фото
+    private final int PHOTO_WIDTH =0; //длина фото 0 значит, что может растягиваться по горизонтали
+    private final int PHOTO_HEIGHT =150; //высота фото
     private final OnClickAdapter listener;
     private List<Photo> photos;
 
@@ -84,7 +81,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder
                     .load(photo.getUri())
                     .placeholder(R.drawable.ic_autorenew_black)
                     .error(R.drawable.ic_crop_original_black)
-                    .resize(IMAGE_WIDTH, IMAGE_HEIGHT)
+                    .resize(PHOTO_WIDTH, PHOTO_HEIGHT)
                     .centerCrop()
                     .into(imagePhoto);
             if (photo.isFavorite()) {
