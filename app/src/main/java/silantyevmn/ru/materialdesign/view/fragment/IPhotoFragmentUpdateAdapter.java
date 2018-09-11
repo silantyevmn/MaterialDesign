@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 public interface IPhotoAdapter {
-    void setAdapter(List<Photo> photos);
+    void updateAdapter();
 }
