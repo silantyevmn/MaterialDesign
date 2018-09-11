@@ -10,7 +10,7 @@ import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 
 public class PhotoFullActivity extends AppCompatActivity {
-    public static final String PHOTO_FULL_ACTIVITY_TAG = "image_full";
+    public static final String PHOTO_FULL_ACTIVITY_KEY = "image_full";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class PhotoFullActivity extends AppCompatActivity {
         //добавляем в АппБар кнопку назад
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ImageView imageView = findViewById(R.id.image_full);
-        Uri uri = Uri.parse((getIntent().getStringExtra(PHOTO_FULL_ACTIVITY_TAG)));
+        Uri uri = Uri.parse((getIntent().getStringExtra(PHOTO_FULL_ACTIVITY_KEY)));
         imageView.setImageURI(uri);
     }
 }
