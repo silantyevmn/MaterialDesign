@@ -27,22 +27,8 @@ public class GaleryPresenter {
         modelTheme = ModelTheme.getInstance();
     }
 
-    public void onCreate() {
-        selectFragmentHome();
-    }
-
     public void onClickMenuSetting() {
         view.showSetting(modelTheme.getList());
-    }
-
-    public void selectFragmentHome() {
-        view.showFragmentHome(modelPhoto.getList());
-        modelPhoto.setIdFragment(0);//todo временно сохраняю id fragmenta
-    }
-
-    public void selectFragmentFavorite() {
-        view.showFragmentFavorite(modelPhoto.getListFavorite());
-        modelPhoto.setIdFragment(1);//todo временно сохраняю id fragmenta
     }
 
     public Uri getUriToCamera(Context context) {
@@ -70,7 +56,7 @@ public class GaleryPresenter {
     public void insertCamera(String uriString) {
         Photo photo = new Photo(Uri.parse(uriString).getLastPathSegment(), uriString);
         modelPhoto.insert(photo);
-        view.setAdapter(modelPhoto.getList());
+        view.updateAdapter();
         view.showLog("insertCamera", photo.getName() + " успешно добавлено");
 
     }
@@ -82,14 +68,14 @@ public class GaleryPresenter {
         } else {
             Photo photo = new Photo(newUri.getLastPathSegment(), newUri.toString());
             modelPhoto.insert(photo);
-            view.setAdapter(modelPhoto.getList());
+            view.updateAdapter();
             view.showLog("insertGalery", photo.getName() + " успешно добавлено");
         }
 
     }
 
-    public int getIdFragment() {
-        //todo вернуть id активного фрагмента
-        return modelPhoto.getIdFragment();
+    public void onTabSelected(int position) {
+        view.updateAdapter();
+
     }
 }
