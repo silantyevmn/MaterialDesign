@@ -3,68 +3,58 @@ package silantyevmn.ru.materialdesign.view.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.Spinner;
 
-import java.util.List;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.theme.Theme;
+import silantyevmn.ru.materialdesign.presenter.SettingPresenter;
 
 public class SettingsActivity extends AppCompatActivity {
-    public static final String LIST_THEMES = "list_themes";
-    private final int margin_default = 10;
+    @BindView(R.id.button_setting_action)
+    Button button;
+    @BindView(R.id.spinner_item_theme)
+    Spinner spinnerTheme;
+    @BindView(R.id.spinner_item_span)
+    Spinner spinnerSpan;
+
+    private SettingPresenter presenter;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(DataSharedPreference.getInstance().getCurrentTheme());
         setContentView(R.layout.activity_settings);
+        ButterKnife.bind(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //добавляем в АппБар кнопку назад
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        List<Theme> themes = (List<Theme>) getIntent().getSerializableExtra(LIST_THEMES);
-        init(themes);
+        presenter = new SettingPresenter(this);
     }
 
-    private void init(final List<Theme> themes) {
-
-        LinearLayout linearLayout = findViewById(R.id.line_setting);
-        LinearLayout.LayoutParams marginParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        marginParam.setMargins(margin_default, margin_default, margin_default, margin_default);
-
-        Button[] buttons = new Button[themes.size()];
-        for (int i = 0; i < buttons.length; i++) {
-            Button button = new Button(this);
-            button.setText(themes.get(i).getName());
-            button.setBackgroundResource(themes.get(i).getColor());
-            final int finalI = i;
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    switchTheme(themes.get(finalI).getId());
-                }
-            });
-            linearLayout.addView(button, marginParam);
-
-        }
-
+    @OnClick(R.id.button_setting_action)
+    public void onClick(Button button) {
+        presenter.onClick(spinnerTheme.getSelectedItemPosition(), spinnerSpan.getSelectedItemPosition());
     }
 
-    private void switchTheme(int theme_id) {
-        DataSharedPreference.getInstance().setCurrentTheme(theme_id);
-        recreate();
+    public void initSetting(int positionTheme, int positionSpan) {
+        spinnerTheme.setSelection(positionTheme);
+        spinnerSpan.setSelection(positionSpan);
     }
 
     //обработка клавиши назад
     @Override
     public void onBackPressed() {
         SettingsActivity.this.finish();
+    }
+
+    public void recreateSetting() {
+        onBackPressed();
     }
 }
