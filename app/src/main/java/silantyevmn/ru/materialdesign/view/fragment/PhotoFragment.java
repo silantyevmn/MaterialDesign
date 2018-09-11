@@ -1,6 +1,5 @@
 package silantyevmn.ru.materialdesign.view.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,13 +16,11 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
-import silantyevmn.ru.materialdesign.model.photo.IPhotoAdapter;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
-import silantyevmn.ru.materialdesign.view.activity.PhotoFullActivity;
 
-public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter, IPhotoAdapter {
+public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private FloatingActionButton fabCamera;
@@ -31,6 +28,14 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     private PhotoPresenter presenter;
     private PhotoAdapter adapter;
     private boolean isFABOpen = false;
+
+    public static PhotoFragment newInstance(Bundle bundle) {
+        PhotoFragment currentFragment = new PhotoFragment();
+        Bundle args = new Bundle();
+        args.putBundle("gettedArgs", bundle);
+        currentFragment.setArguments(args);
+        return currentFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,12 +81,11 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.onViewCreated();
+        presenter.init(getContext());
     }
 
     @Override
-    public void init(List<Photo> photos) {
-        int span = presenter.getGridLayoutManagerSpan(getResources().getConfiguration().orientation);
+    public void init(List<Photo> photos, int span) {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), span);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new PhotoAdapter(photos, this);
@@ -90,7 +94,9 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
 
     @Override
     public void setAdapter(List<Photo> photos) {
-        adapter.setPhotos(photos);
+        if (adapter != null) {
+            adapter.setPhotos(photos);
+        }
     }
 
     @Override
@@ -101,25 +107,22 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     }
 
     @Override
-    public void showFullPhoto(Photo photo) {
-        //заглушка
-        Intent intent = new Intent(getActivity(), PhotoFullActivity.class);
-        intent.putExtra(PhotoFullActivity.PHOTO_FULL_ACTIVITY_TAG, photo.getUri());
-        startActivity(intent);
-    }
-
-    @Override
     public void onClickPhoto(int position) {
         presenter.onClickPhoto(position);
     }
 
     @Override
     public void onClickMenuDelete(int position) {
-        presenter.delete(position);
+        presenter.delete(position, getActivity());
     }
 
     @Override
     public void onClickMenuFavorite(int position) {
         presenter.favorite(position);
+    }
+
+    @Override
+    public void updateAdapter() {
+        presenter.updateAdapter();
     }
 }
