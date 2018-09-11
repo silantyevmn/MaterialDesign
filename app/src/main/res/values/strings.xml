@@ -23,6 +23,14 @@
         <item>Green</item>
         <item>Orange</item>
     </string-array>
+
+    <string-array name="grid_span_array">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+
     <string name="context_menu_add_camera">add_camera</string>
+    <string name="save_settings">Save settings</string>
 
 </resources>
