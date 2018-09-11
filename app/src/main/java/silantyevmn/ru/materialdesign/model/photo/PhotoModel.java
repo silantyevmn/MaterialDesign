@@ -56,11 +56,11 @@ public class PhotoModel implements IModelPhoto {
     @Override
     public int getGridLayoutManagerSpan(int orientation) {
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            return 2;
+            return dataSharedPreference.getCurrentSpan();
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return 3;
+            return dataSharedPreference.getCurrentSpan()+1;
         }
-        return 2;
+        return dataSharedPreference.getCurrentSpan();
     }
 
     @Override
