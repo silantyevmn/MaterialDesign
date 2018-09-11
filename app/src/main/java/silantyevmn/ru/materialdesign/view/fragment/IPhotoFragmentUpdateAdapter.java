@@ -1,4 +1,4 @@
-package silantyevmn.ru.materialdesign.model.photo;
+package silantyevmn.ru.materialdesign.view.fragment;
 
 import java.util.List;
 
@@ -6,6 +6,6 @@ import java.util.List;
  * Created by silan on 08.09.2018.
  */
 
-public interface IPhotoAdapter {
+public interface IPhotoFragmentUpdateAdapter {
     void updateAdapter();
 }
