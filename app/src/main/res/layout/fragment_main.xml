@@ -5,34 +5,54 @@
     android:layout_height="match_parent"
     tools:context="silantyevmn.ru.materialdesign.view.fragment.PhotoFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+        <ImageView
+            android:id="@+id/image_botton_fragment_test"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/margin10"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bnv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:itemBackground="?colorPrimary"
+            app:itemIconTint="@color/colorWhite"
+            app:itemTextColor="@color/colorWhite"
+            app:menu="@menu/bottom_navigation_main" />
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabCamera"
+        style="@style/MyFab.Small"
         android:layout_width="@dimen/fab_small_size"
         android:layout_height="@dimen/fab_small_size"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_small_margin"
         app:srcCompat="@drawable/ic_menu_camera" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabGalery"
+        style="@style/MyFab.Small"
         android:layout_width="@dimen/fab_small_size"
         android:layout_height="@dimen/fab_small_size"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_small_margin"
         app:srcCompat="@drawable/ic_menu_gallery" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
+        style="@style/MyFab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_input_add" />
 
-
 </android.support.design.widget.CoordinatorLayout>
+
