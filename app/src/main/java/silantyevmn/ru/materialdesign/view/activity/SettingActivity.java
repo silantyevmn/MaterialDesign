@@ -1,10 +1,13 @@
 package silantyevmn.ru.materialdesign.view.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.Spinner;
+
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -13,7 +16,7 @@ import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.presenter.SettingPresenter;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends MvpAppCompatActivity {
     @BindView(R.id.button_setting_action)
     Button button;
     @BindView(R.id.spinner_item_theme)
@@ -21,7 +24,15 @@ public class SettingsActivity extends AppCompatActivity {
     @BindView(R.id.spinner_item_span)
     Spinner spinnerSpan;
 
-    private SettingPresenter presenter;
+    @InjectPresenter
+    SettingPresenter presenter;
+
+    @ProvidePresenter
+    public SettingPresenter provideSettingPresenter() {
+        presenter = new SettingPresenter(this);
+        //TO SOMETHING WITH PRESENTER
+        return presenter;
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -35,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity {
         //добавляем в АппБар кнопку назад
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        presenter = new SettingPresenter(this);
+        presenter = provideSettingPresenter();
     }
 
     @OnClick(R.id.button_setting_action)
