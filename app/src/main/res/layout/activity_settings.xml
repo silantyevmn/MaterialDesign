@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="silantyevmn.ru.materialdesign.view.activity.SettingsActivity">
+    tools:context="silantyevmn.ru.materialdesign.view.activity.SettingActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -22,5 +22,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/activity_settings_item" />
 
 </LinearLayout>

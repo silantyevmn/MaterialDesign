@@ -1,15 +1,18 @@
 package silantyevmn.ru.materialdesign.model.photo;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 
@@ -17,18 +20,17 @@ import silantyevmn.ru.materialdesign.R;
  * Created by silan on 29.08.2018.
  */
 
-public class PhotoDataFile implements IPhotoEmmiter {
+public class PhotoDataFile implements IPhotoDataFile {
     private static PhotoDataFile fileOperation;
     private final File storageDIR;
-    //private final String path = "content://com.example.android.provider/my_images/";
     private File photoFile;
 
     private PhotoDataFile(Context context) {
         this.storageDIR = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
     }
 
-    public Uri getUriToFileProvider(Context context,File file){
-        return FileProvider.getUriForFile(context, context.getString(R.string.file_provider),photoFile);
+    public Uri getUriToFileProvider(Context context, File file) {
+        return FileProvider.getUriForFile(context, context.getString(R.string.file_provider), file);
     }
 
     public File createImageFile() throws IOException {
@@ -43,17 +45,7 @@ public class PhotoDataFile implements IPhotoEmmiter {
     }
 
     public Uri getUri(File photoFile) {
-        //return Uri.parse(path + photoFile.getName());
         return Uri.fromFile(photoFile);
-    }
-
-    @Override
-    public List<Photo> getList() {
-        return null;
-    }
-
-    @Override
-    public void insert(Photo photo) {
     }
 
     @Override
@@ -67,13 +59,40 @@ public class PhotoDataFile implements IPhotoEmmiter {
     }
 
     @Override
-    public void favorites(Photo photo) {
-
+    public Uri getUriToCamera(Context context) {
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (photoFile != null) {
+            return getUriToFileProvider(context, photoFile);
+        }
+        return null;
     }
 
     @Override
-    public List<Photo> getListFavorite() {
-        return null;
+    public Uri getUriToGalery(Context context, Uri uri) {
+        Bitmap bitmap = null;
+        File file = null;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            file = createImageFile();
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bytes.toByteArray());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (bitmap == null || file == null) {
+            return null;
+        } else {
+            return Uri.fromFile(file);
+        }
     }
 
     public static PhotoDataFile getInstance() {
@@ -89,4 +108,6 @@ public class PhotoDataFile implements IPhotoEmmiter {
     public File getStorageDir() {
         return storageDIR;
     }
+
+
 }

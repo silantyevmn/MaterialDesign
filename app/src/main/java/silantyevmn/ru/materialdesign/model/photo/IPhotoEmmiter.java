@@ -8,9 +8,12 @@ import java.util.List;
 
 public interface IPhotoEmmiter {
     List<Photo> getList();
+
     void insert(Photo photo);
+
     void delete(Photo photo);
-    void favorites(Photo photo);
+
+    Photo favorites(Photo photo);
 
     List<Photo> getListFavorite();
 }

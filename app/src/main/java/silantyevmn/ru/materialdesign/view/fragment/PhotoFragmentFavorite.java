@@ -1,15 +1,8 @@
 package silantyevmn.ru.materialdesign.view.fragment;
 
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,35 +12,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
-import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
-import silantyevmn.ru.materialdesign.model.photo.PhotoDataFile;
-import silantyevmn.ru.materialdesign.presenter.IPhotoPresenter;
-import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenterFavorite;
-import silantyevmn.ru.materialdesign.view.activity.PhotoFullActivity;
 
-import static android.app.Activity.RESULT_OK;
-
-public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFavorite, PhotoAdapter.OnClickAdapter {
-    private int COUNT_SPAN = 2; //количество фото в строке
+public class PhotoFragmentFavorite extends Fragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
     private RecyclerView recyclerView;
     private PhotoPresenterFavorite presenter;
     private PhotoAdapter adapter;
+
+    public static PhotoFragmentFavorite newInstance(Bundle bundle) {
+        PhotoFragmentFavorite currentFragment = new PhotoFragmentFavorite();
+        Bundle args = new Bundle();
+        args.putBundle("gettedArgs", bundle);
+        currentFragment.setArguments(args);
+        return currentFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new PhotoPresenterFavorite(this);
-        Log.i("PhotoFragmentFavorite","onCreate");
+        Log.i("PhotoFragmentFavorite", "onCreate");
     }
 
     @Override
@@ -62,15 +51,14 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFav
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.onViewCreated();
+        presenter.init(getContext());
 
     }
 
 
     @Override
-    public void init(List<Photo> photos) {
-        int span=presenter.getGridLayoutManagerSpan(getResources().getConfiguration().orientation);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), span);
+    public void init(List<Photo> photos, int gridLayoutManagerSpan) {
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), gridLayoutManagerSpan);
         recyclerView.setLayoutManager(gridLayoutManager);
         adapter = new PhotoAdapter(photos, this);
         recyclerView.setAdapter(adapter);
@@ -78,7 +66,9 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFav
 
     @Override
     public void setAdapter(List<Photo> photos) {
-        adapter.setPhotos(photos);
+        if (adapter != null) {
+            adapter.setPhotos(photos);
+        }
     }
 
     @Override
@@ -88,17 +78,6 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFav
         Log.i(title, "-->" + value);
     }
 
-
-    @Override
-    public void showFullPhoto(Photo photo) {
-        //заглушка
-        Intent intent = new Intent(getActivity(), PhotoFullActivity.class);
-        intent.putExtra("image_full", photo.getUri());
-        startActivity(intent);
-        showLog("showPhoto->", String.valueOf(photo.getName()));
-
-    }
-
     @Override
     public void onClickPhoto(int position) {
         presenter.onClickPhoto(position);
@@ -106,11 +85,31 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragmentFav
 
     @Override
     public void onClickMenuDelete(int position) {
-        presenter.delete(position);
+        presenter.delete(position, getActivity());
     }
 
     @Override
     public void onClickMenuFavorite(int position) {
         presenter.favorite(position);
+    }
+
+    @Override
+    public void updateAdapter() {
+        presenter.updateAdapter();
+    }
+
+    @Override
+    public void showBottonHome() {
+
+    }
+
+    @Override
+    public void showBottonDatabase() {
+
+    }
+
+    @Override
+    public void showBottonNetwork() {
+
     }
 }

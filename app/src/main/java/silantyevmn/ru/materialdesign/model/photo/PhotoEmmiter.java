@@ -14,8 +14,8 @@ public class PhotoEmmiter implements IPhotoEmmiter {
     private List<Photo> arrays;
     private PhotoDataFile fileOperation;
 
-    public PhotoEmmiter(){
-        fileOperation= PhotoDataFile.getInstance();
+    public PhotoEmmiter() {
+        fileOperation = PhotoDataFile.getInstance();
         init();
     }
 
@@ -25,13 +25,11 @@ public class PhotoEmmiter implements IPhotoEmmiter {
     }
 
     public void init() {
-        //content://com.example.android.provider/my_images/JPEG_20180829_143946_1411028100.jpg
         arrays = new ArrayList<>();
         for (File file : fileOperation.getStorageDir().listFiles()) {
-            Photo photo=new Photo(file.getName(),fileOperation.getUri(file).toString());
-            //Photo photo=new Photo(file.getName(),file.getAbsolutePath());
-            boolean favorite=DataSharedPreference.getInstance().getFavorite(photo.getName());
-            if(favorite){
+            Photo photo = new Photo(file.getName(), fileOperation.getUri(file).toString());
+            boolean favorite = DataSharedPreference.getInstance().getFavorite(photo.getName());
+            if (favorite) {
                 photo.setFavorite(true);
             } else
                 photo.setFavorite(false);
@@ -42,23 +40,21 @@ public class PhotoEmmiter implements IPhotoEmmiter {
     @Override
     public void delete(Photo photo) {
         arrays.remove(photo);
-        //fileOperation.deleteFile(photo);
-        DataSharedPreference.getInstance().deleteFavorite(photo.getName());
     }
 
     @Override
-    public void favorites(Photo photo) {
-        int position=arrays.indexOf(photo);
+    public Photo favorites(Photo photo) {
+        int position = arrays.indexOf(photo);
         photo.setFavorite(!photo.isFavorite());
-        arrays.set(position,photo);
-        DataSharedPreference.getInstance().setFavorite(photo.getName(),photo.isFavorite());
+        arrays.set(position, photo);
+        return photo;
     }
 
     @Override
     public List<Photo> getListFavorite() {
-        List<Photo> photoFavoriteList=new ArrayList<>();
+        List<Photo> photoFavoriteList = new ArrayList<>();
         for (Photo photo : arrays) {
-            if(photo.isFavorite()){
+            if (photo.isFavorite()) {
                 photoFavoriteList.add(photo);
             }
         }

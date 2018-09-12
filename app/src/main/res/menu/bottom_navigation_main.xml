@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="bnv">
+    <item
+        android:id="@+id/bnv_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="Home" />
+    <item
+        android:id="@+id/bnv_load_database"
+        android:icon="@drawable/ic_folder_black_24dp"
+        android:title="Database" />
+    <item
+        android:id="@+id/bnv_load_network"
+        android:icon="@drawable/ic_cloud_download_black_24dp"
+        android:title="Network" />
+</menu>

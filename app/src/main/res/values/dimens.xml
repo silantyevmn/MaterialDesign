@@ -2,7 +2,7 @@
 <resources>
     <dimen name="margin10">10dp</dimen>
     <dimen name="card_margin_default">4dp</dimen>
-    <dimen name="card_image_min_width">150dp</dimen>
+    <dimen name="card_image_min_width">180dp</dimen>
     <dimen name="card_image_min_height">180dp</dimen>
     <dimen name="card_text_size_default">15dp</dimen>
     <dimen name="margin5">5dp</dimen>
@@ -19,6 +19,8 @@
     <dimen name="fab_small_size">45dp</dimen>
     <dimen name="fab_size">55dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_margin_botton">64dp</dimen>
+    <dimen name="fab_small_margin_botton">69dp</dimen>
 
     <dimen name="padding12">12dp</dimen>
     <dimen name="padding24">24dp</dimen>
