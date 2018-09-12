@@ -16,7 +16,7 @@ import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.presenter.SettingPresenter;
 
-public class SettingsActivity extends MvpAppCompatActivity {
+public class SettingActivity extends MvpAppCompatActivity implements SettingActivityView {
     @BindView(R.id.button_setting_action)
     Button button;
     @BindView(R.id.spinner_item_theme)
@@ -54,7 +54,8 @@ public class SettingsActivity extends MvpAppCompatActivity {
         presenter.onClick(spinnerTheme.getSelectedItemPosition(), spinnerSpan.getSelectedItemPosition());
     }
 
-    public void initSetting(int positionTheme, int positionSpan) {
+    @Override
+    public void init(int positionTheme, int positionSpan) {
         spinnerTheme.setSelection(positionTheme);
         spinnerSpan.setSelection(positionSpan);
     }
@@ -62,10 +63,11 @@ public class SettingsActivity extends MvpAppCompatActivity {
     //обработка клавиши назад
     @Override
     public void onBackPressed() {
-        SettingsActivity.this.finish();
+        SettingActivity.this.finish();
     }
 
-    public void recreateSetting() {
-        onBackPressed();
+    @Override
+    public void finish() {
+        SettingActivity.this.finish();
     }
 }
