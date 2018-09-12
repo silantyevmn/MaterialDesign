@@ -10,6 +10,4 @@ import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface SettingActivityView extends MvpView {
     void init(int currentThemePosition, int currentSpanPosition);
-
-    void finish();
 }

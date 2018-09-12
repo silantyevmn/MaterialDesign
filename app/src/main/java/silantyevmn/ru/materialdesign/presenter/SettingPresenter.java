@@ -23,6 +23,5 @@ public class SettingPresenter extends MvpPresenter<SettingActivityView> {
     public void onClick(int themePosition, int spanPosition) {
         model.saveTheme(themePosition);
         model.saveSpan(spanPosition);
-        getViewState().finish();
     }
 }

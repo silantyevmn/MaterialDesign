@@ -52,6 +52,7 @@ public class SettingActivity extends MvpAppCompatActivity implements SettingActi
     @OnClick(R.id.button_setting_action)
     public void onClick(Button button) {
         presenter.onClick(spinnerTheme.getSelectedItemPosition(), spinnerSpan.getSelectedItemPosition());
+        onBackPressed();
     }
 
     @Override
@@ -66,8 +67,4 @@ public class SettingActivity extends MvpAppCompatActivity implements SettingActi
         SettingActivity.this.finish();
     }
 
-    @Override
-    public void finish() {
-        SettingActivity.this.finish();
-    }
 }
