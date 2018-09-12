@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.io.Serializable;
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
@@ -97,8 +96,8 @@ public class GaleryActivity extends AppCompatActivity
 
     @Override
     public void showSetting(List<Theme> themes) {
-        Intent intent = new Intent(GaleryActivity.this, SettingsActivity.class);
-        //intent.putExtra(SettingsActivity.LIST_THEMES, (Serializable) themes);
+        Intent intent = new Intent(GaleryActivity.this, SettingActivity.class);
+        //intent.putExtra(SettingActivity.LIST_THEMES, (Serializable) themes);
         startActivityForResult(intent, SETTING_REQUEST);
     }
 
