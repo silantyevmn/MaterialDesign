@@ -97,4 +97,19 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragment, P
     public void updateAdapter() {
         presenter.updateAdapter();
     }
+
+    @Override
+    public void showBottonHome() {
+
+    }
+
+    @Override
+    public void showBottonDatabase() {
+
+    }
+
+    @Override
+    public void showBottonNetwork() {
+
+    }
 }
