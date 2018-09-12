@@ -15,4 +15,11 @@ public interface IPhotoFragment extends IPhotoFragmentUpdateAdapter {
     void init(List<Photo> photos, int gridLayoutManagerSpan);
 
     void setAdapter(List<Photo> photos);
+
+    void showBottonHome();
+
+    void showBottonDatabase();
+
+    void showBottonNetwork();
+
 }

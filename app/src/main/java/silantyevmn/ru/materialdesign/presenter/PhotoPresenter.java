@@ -86,4 +86,16 @@ public class PhotoPresenter {
         //todo test import galery
         mainActivity.showImportGalery();
     }
+
+    public void onClickBottonMenuHome() {
+        view.showBottonHome();
+    }
+
+    public void onClickBottonMenuDatabase() {
+        view.showBottonDatabase();
+    }
+
+    public void onClickBottonMenuNetwork() {
+        view.showBottonNetwork();
+    }
 }

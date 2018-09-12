@@ -3,6 +3,7 @@ package silantyevmn.ru.materialdesign.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.List;
 
@@ -28,6 +31,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     private PhotoPresenter presenter;
     private PhotoAdapter adapter;
     private boolean isFABOpen = false;
+    private ImageView imageViewTest;
 
     public static PhotoFragment newInstance(Bundle bundle) {
         PhotoFragment currentFragment = new PhotoFragment();
@@ -48,6 +52,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        imageViewTest=rootView.findViewById(R.id.image_botton_fragment_test); //тестовая картинка под bottonNavView
         recyclerView = rootView.findViewById(R.id.recycler);
         fab = rootView.findViewById(R.id.fab);
         fabCamera = rootView.findViewById(R.id.fabCamera);
@@ -58,6 +63,24 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
             } else {
                 closeFABMenu();
             }
+        });
+        BottomNavigationView bnv=rootView.findViewById(R.id.bnv);
+        bnv.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.bnv_home:{
+                    presenter.onClickBottonMenuHome();
+                    break;
+                }
+                case R.id.bnv_load_database:{
+                    presenter.onClickBottonMenuDatabase();
+                    break;
+                }
+                case R.id.bnv_load_network:{
+                    presenter.onClickBottonMenuNetwork();
+                    break;
+                }
+            }
+            return false;
         });
         return rootView;
     }
@@ -97,6 +120,36 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
         if (adapter != null) {
             adapter.setPhotos(photos);
         }
+    }
+
+    private void setVisibleFragment(boolean flag){
+        if(flag){
+            imageViewTest.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        } else {
+            imageViewTest.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showBottonHome() {
+        //показать текущий фрагмент
+        setVisibleFragment(true);
+    }
+
+    @Override
+    public void showBottonDatabase() {
+        //показать фрагмент DAtabase
+        setVisibleFragment(false);
+        imageViewTest.setImageResource(R.drawable.ic_folder_black_24dp);
+    }
+
+    @Override
+    public void showBottonNetwork() {
+        //показать фрагмент Network
+        setVisibleFragment(false);
+        imageViewTest.setImageResource(R.drawable.ic_cloud_download_black_24dp);
     }
 
     @Override
