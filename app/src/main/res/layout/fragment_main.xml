@@ -5,39 +5,41 @@
     android:layout_height="match_parent"
     tools:context="silantyevmn.ru.materialdesign.view.fragment.PhotoFragment">
 
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-        <ImageView
-            android:id="@+id/image_botton_fragment_test"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="@dimen/margin10"
-            android:visibility="gone"/>
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.NestedScrollView>
 
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/bnv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:itemBackground="?colorPrimary"
-            app:itemIconTint="@color/colorWhite"
-            app:itemTextColor="@color/colorWhite"
-            app:menu="@menu/bottom_navigation_main" />
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/image_botton_fragment_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin10"
+        android:visibility="visible"
+        app:srcCompat="@drawable/ic_crop_original_black" />
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bnv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:itemBackground="?colorPrimary"
+        app:itemIconTint="@color/colorWhite"
+        app:itemTextColor="@color/colorWhite"
+        app:layout_behavior="@string/bottom_navigation_view_behavior"
+        app:menu="@menu/bottom_navigation_main" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabCamera"
         style="@style/MyFab.Small"
         android:layout_width="@dimen/fab_small_size"
         android:layout_height="@dimen/fab_small_size"
+        app:layout_behavior="@string/FabBehavior"
         app:srcCompat="@drawable/ic_menu_camera" />
 
     <android.support.design.widget.FloatingActionButton
@@ -45,6 +47,7 @@
         style="@style/MyFab.Small"
         android:layout_width="@dimen/fab_small_size"
         android:layout_height="@dimen/fab_small_size"
+        app:layout_behavior="@string/FabBehavior"
         app:srcCompat="@drawable/ic_menu_gallery" />
 
     <android.support.design.widget.FloatingActionButton
@@ -52,6 +55,7 @@
         style="@style/MyFab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
+        app:layout_behavior="@string/FabBehavior"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </android.support.design.widget.CoordinatorLayout>
