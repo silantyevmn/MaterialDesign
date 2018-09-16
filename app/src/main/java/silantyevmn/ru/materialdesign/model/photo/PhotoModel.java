@@ -13,43 +13,54 @@ import silantyevmn.ru.materialdesign.model.DataSharedPreference;
  */
 
 public class PhotoModel implements IModelPhoto {
-    private IPhotoEmmiter photoEmmiter;
-    private IPhotoDataFile photoData;
+    //private IPhotoEmmiter photoEmmiter;
+    private IPhotoDataFile dataFile;
     private static PhotoModel modelPhoto;
     private DataSharedPreference dataSharedPreference;
+    private PhotoModelDataBase dataBase;
 
     private PhotoModel() {
-        photoEmmiter = new PhotoEmmiter();
-        photoData = PhotoDataFile.getInstance();
+        //photoEmmiter = new PhotoEmmiter();
+        dataFile = PhotoDataFile.getInstance();
+        dataBase = PhotoModelDataBase.getInstance();
         dataSharedPreference = DataSharedPreference.getInstance();
     }
 
     @Override
     public List<Photo> getList() {
-        return photoEmmiter.getList();
+        return dataBase.getList();
+        //return photoEmmiter.getList();
     }
 
     @Override
     public void insert(Photo photo) {
-        photoEmmiter.insert(photo);
+        //photoEmmiter.insert(photo);
+        dataFile.insert(photo);
+        dataBase.insert(photo);
     }
 
     @Override
     public void delete(Photo photo) {
-        photoEmmiter.delete(photo);
-        photoData.delete(photo);
-        dataSharedPreference.deleteFavorite(photo.getName());
+        dataFile.delete(photo);
+        dataBase.delete(photo);
+        /*photoEmmiter.delete(photo);
+        dataFile.delete(photo);*/
+        //dataSharedPreference.deleteFavorite(photo.getName());
     }
 
     @Override
     public void favorite(Photo photo) {
-        Photo tempPhoto = photoEmmiter.favorites(photo);
-        dataSharedPreference.setFavorite(tempPhoto.getName(), tempPhoto.isFavorite());
+        //Photo tempPhoto = photoEmmiter.favorites(photo);
+        Photo newPhoto = dataBase.favorites(photo);
+        /*photo.setFavorite(!photo.isFavorite());
+        dataBase.insert(photo);*/
+        dataSharedPreference.setFavorite(newPhoto.getName(), newPhoto.isFavorite());
     }
 
     @Override
     public List<Photo> getListFavorite() {
-        return photoEmmiter.getListFavorite();
+        return dataBase.getListFavorite();
+        //return photoEmmiter.getListFavorite();
     }
 
     // пока реализовал таким способом, с дальнейщей возможностью вынести количество фото в настройки
@@ -65,7 +76,7 @@ public class PhotoModel implements IModelPhoto {
 
     @Override
     public Uri getUriToCamera(Context context) {
-        return photoData.getUriToCamera(context);
+        return dataFile.getUriToCamera(context);
     }
 
     @Override
@@ -76,7 +87,7 @@ public class PhotoModel implements IModelPhoto {
 
     @Override
     public Uri getUriToGalery(Context context, Uri uri) {
-        return photoData.getUriToGalery(context, uri);
+        return dataFile.getUriToGalery(context, uri);
     }
 
     @Override

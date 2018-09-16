@@ -95,6 +95,11 @@ public class PhotoDataFile implements IPhotoDataFile {
         }
     }
 
+    @Override
+    public void insert(Photo photo) {
+
+    }
+
     public static PhotoDataFile getInstance() {
         return fileOperation;
     }

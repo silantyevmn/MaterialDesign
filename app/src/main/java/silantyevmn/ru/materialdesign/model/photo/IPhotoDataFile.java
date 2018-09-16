@@ -13,4 +13,6 @@ public interface IPhotoDataFile {
     Uri getUriToCamera(Context context);
 
     Uri getUriToGalery(Context context, Uri uri);
+
+    void insert(Photo photo);
 }

@@ -1,15 +1,28 @@
 package silantyevmn.ru.materialdesign.model.photo;
 
+import android.arch.persistence.room.*;
+
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by silan on 18.08.2018.
  */
 
+@Entity(indices = {@Index(value = {"name"}, unique = true)})
 public class Photo {
+
+    @PrimaryKey
+    @NotNull
+    @ColumnInfo(name = "name")
     private String name;
-    private boolean isFavorite;
+
+    @ColumnInfo(name = "isFavorite")
+    private boolean isFavorite = false;
+
+    @ColumnInfo(name = "uri")
     private String uri = null;
 
-    public Photo(String name, String uri) {
+    public Photo(@NotNull String name, String uri) {
         this.name = name;
         this.uri = uri;
     }

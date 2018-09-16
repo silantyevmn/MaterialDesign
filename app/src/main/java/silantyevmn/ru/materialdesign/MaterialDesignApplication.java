@@ -5,6 +5,7 @@ import android.app.Application;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.PhotoDataFile;
 import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
+import silantyevmn.ru.materialdesign.model.photo.PhotoModelDataBase;
 import silantyevmn.ru.materialdesign.model.theme.ModelTheme;
 
 /**
@@ -17,6 +18,7 @@ public class MaterialDesignApplication extends Application {
     public void onCreate() {
         super.onCreate();
         DataSharedPreference.init(this);
+        PhotoModelDataBase.init(this);
         PhotoDataFile.init(this);
         PhotoModel.init();
         ModelTheme.init();
