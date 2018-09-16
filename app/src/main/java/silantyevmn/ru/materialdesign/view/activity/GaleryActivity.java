@@ -170,8 +170,8 @@ public class GaleryActivity extends AppCompatActivity
 
     @Override
     public void showLog(String title, String value) {
-        Snackbar mSnackbar = Snackbar.make(getCurrentFocus(), title + "-->" + value, Snackbar.LENGTH_LONG);
-        mSnackbar.show();
+       /* Snackbar mSnackbar = Snackbar.make(getCurrentFocus(), title + "-->" + value, Snackbar.LENGTH_LONG);
+        mSnackbar.show();*/
         Log.i(title, "-->" + value);
     }
 
@@ -188,7 +188,7 @@ public class GaleryActivity extends AppCompatActivity
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
                         Uri uri = data.getData();
-                        Log.i("onActivityResult", "Uri :" + uri.toString());
+                        showLog("onActivityResult", "Uri :" + uri.toString());
                         presenter.insertGalery(this, uri);
                     }
                 }
@@ -196,7 +196,7 @@ public class GaleryActivity extends AppCompatActivity
             case IMPORT_CAMERA_REQUEST: {
                 if (resultCode == RESULT_OK) {
                     presenter.insertCamera(DataSharedPreference.getInstance().getUriCamera());
-                    Log.i("onActivityResult", "Uri :" + DataSharedPreference.getInstance().getUriCamera());
+                    showLog("onActivityResult", "Uri :" + DataSharedPreference.getInstance().getUriCamera());
                 } else {
                     presenter.deleteTempFileCamera();
                 }
