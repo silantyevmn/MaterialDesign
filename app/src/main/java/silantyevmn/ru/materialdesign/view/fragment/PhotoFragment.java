@@ -45,7 +45,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         presenter = new PhotoPresenter(this);
-        Log.i("PhotoFragment", "onCreate");
+        showLog("PhotoFragment", "onCreate");
     }
 
     @Override
@@ -154,8 +154,8 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
 
     @Override
     public void showLog(String title, String value) {
-        Snackbar mSnackbar = Snackbar.make(getView(), title + "-->" + value, Snackbar.LENGTH_LONG);
-        mSnackbar.show();
+       /* Snackbar mSnackbar = Snackbar.make(getView(), title + "-->" + value, Snackbar.LENGTH_LONG);
+        mSnackbar.show();*/
         Log.i(title, "-->" + value);
     }
 

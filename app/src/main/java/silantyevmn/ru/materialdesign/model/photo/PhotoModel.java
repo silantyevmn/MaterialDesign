@@ -12,8 +12,8 @@ import silantyevmn.ru.materialdesign.model.DataSharedPreference;
  * Created by silan on 18.08.2018.
  */
 
-public class PhotoModel implements IModelPhoto {
-    //private IPhotoEmmiter photoEmmiter;
+public class PhotoModel implements IPhotoModel {
+    //private IPhotoModelDataBase photoEmmiter;
     private IPhotoDataFile dataFile;
     private static PhotoModel modelPhoto;
     private DataSharedPreference dataSharedPreference;
@@ -49,12 +49,14 @@ public class PhotoModel implements IModelPhoto {
     }
 
     @Override
-    public void favorite(Photo photo) {
+    public void update(Photo photo) {
         //Photo tempPhoto = photoEmmiter.favorites(photo);
-        Photo newPhoto = dataBase.favorites(photo);
+        photo.setFavorite(!photo.isFavorite());
+        dataBase.update(photo);
+        //Photo newPhoto = dataBase.favorites(photo);
         /*photo.setFavorite(!photo.isFavorite());
         dataBase.insert(photo);*/
-        dataSharedPreference.setFavorite(newPhoto.getName(), newPhoto.isFavorite());
+        dataSharedPreference.setFavorite(photo.getName(), photo.isFavorite());
     }
 
     @Override

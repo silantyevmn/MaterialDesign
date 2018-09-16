@@ -8,7 +8,7 @@ import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
+import silantyevmn.ru.materialdesign.model.photo.IPhotoModel;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.view.DialogView;
@@ -22,7 +22,7 @@ import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
 
 public class PhotoPresenter {
     private final IPhotoFragment view;
-    private final IModelPhoto model;
+    private final IPhotoModel model;
     private final IGaleryView mainActivity;
 
     public PhotoPresenter(PhotoFragment photoFragment) {
@@ -59,7 +59,7 @@ public class PhotoPresenter {
     }
 
     public void favorite(int position) {
-        model.favorite(getPhotos().get(position));
+        model.update(getPhotos().get(position));
         updateAdapter();
         Photo newPhoto = getPhotos().get(position);
         if (newPhoto.isFavorite()) {

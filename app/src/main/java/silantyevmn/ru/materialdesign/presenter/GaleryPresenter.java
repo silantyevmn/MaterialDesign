@@ -5,7 +5,7 @@ import android.content.Context;
 import android.net.Uri;
 
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
+import silantyevmn.ru.materialdesign.model.photo.IPhotoModel;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.model.theme.IModelTheme;
@@ -18,7 +18,7 @@ import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
 
 public class GaleryPresenter {
     private final IGaleryView view;
-    private final IModelPhoto modelPhoto;
+    private final IPhotoModel modelPhoto;
     private final IModelTheme modelTheme;
 
     public GaleryPresenter(IGaleryView view) {

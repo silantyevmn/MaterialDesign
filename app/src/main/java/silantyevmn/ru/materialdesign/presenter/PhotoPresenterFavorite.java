@@ -8,7 +8,7 @@ import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.photo.IModelPhoto;
+import silantyevmn.ru.materialdesign.model.photo.IPhotoModel;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.view.DialogView;
@@ -23,7 +23,7 @@ import silantyevmn.ru.materialdesign.view.fragment.PhotoFragmentFavorite;
 
 public class PhotoPresenterFavorite {
     private final IPhotoFragment view;
-    private final IModelPhoto model;
+    private final IPhotoModel model;
     private final IGaleryView mainActivity;
 
     public PhotoPresenterFavorite(PhotoFragmentFavorite photoFragment) {
@@ -61,7 +61,7 @@ public class PhotoPresenterFavorite {
     }
 
     public void favorite(int position) {
-        model.favorite(getPhotos().get(position));
+        model.update(getPhotos().get(position));
         updateAdapter();
         view.showLog("favourites", String.valueOf(position));
     }
@@ -69,9 +69,5 @@ public class PhotoPresenterFavorite {
     public void onClickPhoto(int adapterPosition) {
         //запускаем в главной активити
         mainActivity.showFullPhoto(getPhotos().get(adapterPosition));
-    }
-
-    public int getGridLayoutManagerSpan(int orientation) {
-        return model.getGridLayoutManagerSpan(orientation);
     }
 }

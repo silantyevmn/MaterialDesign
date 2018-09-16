@@ -9,7 +9,7 @@ import java.util.List;
  * Created by silan on 16.09.2018.
  */
 
-public class PhotoModelDataBase implements IPhotoEmmiter {
+public class PhotoModelDataBase implements IPhotoModelBase {
     private static PhotoModelDataBase instance;
     private final String DATABASE_NAME = "photos.db";
     private PhotoBase photoBase;
@@ -34,10 +34,8 @@ public class PhotoModelDataBase implements IPhotoEmmiter {
     }
 
     @Override
-    public Photo favorites(Photo photo) {
-        photo.setFavorite(!photo.isFavorite());
+    public void update(Photo photo) {
         photoBase.photoDao().update(photo);
-        return photoBase.photoDao().getPhotoByName(photo.getName());
     }
 
     @Override
@@ -45,13 +43,13 @@ public class PhotoModelDataBase implements IPhotoEmmiter {
         return photoBase.photoDao().getListFavorite();
     }
 
-    public static PhotoModelDataBase getInstance() {
+    public static PhotoModelDataBase getInstance(){
         return instance;
     }
 
-    public static void init(Context context) {
-        if (instance == null) {
-            instance = new PhotoModelDataBase(context);
+    public static void init(Context context){
+        if(instance==null){
+            instance=new PhotoModelDataBase(context);
         }
     }
 

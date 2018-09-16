@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 
@@ -59,6 +60,16 @@ public class PhotoDataFile implements IPhotoDataFile {
     }
 
     @Override
+    public void update(Photo photo) {
+
+    }
+
+    @Override
+    public List<Photo> getListFavorite() {
+        return null;
+    }
+
+    @Override
     public Uri getUriToCamera(Context context) {
         File photoFile = null;
         try {
@@ -96,8 +107,13 @@ public class PhotoDataFile implements IPhotoDataFile {
     }
 
     @Override
-    public void insert(Photo photo) {
+    public List<Photo> getList() {
+        return null;
+    }
 
+    @Override
+    public void insert(Photo photo) {
+        //
     }
 
     public static PhotoDataFile getInstance() {
@@ -108,10 +124,6 @@ public class PhotoDataFile implements IPhotoDataFile {
         if (fileOperation == null) {
             fileOperation = new PhotoDataFile(context);
         }
-    }
-
-    public File getStorageDir() {
-        return storageDIR;
     }
 
 
