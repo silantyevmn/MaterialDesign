@@ -4,6 +4,9 @@ package silantyevmn.ru.materialdesign.presenter;
 import android.content.Context;
 import android.net.Uri;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
+
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.IPhotoModel;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
@@ -15,20 +18,18 @@ import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
 /**
  * Created by silan on 24.08.2018.
  */
-
-public class GaleryPresenter {
-    private final IGaleryView view;
+@InjectViewState
+public class GaleryPresenter extends MvpPresenter<IGaleryView>{
     private final IPhotoModel modelPhoto;
     private final IModelTheme modelTheme;
 
-    public GaleryPresenter(IGaleryView view) {
-        this.view = view;
+    public GaleryPresenter() {
         modelPhoto = PhotoModel.getInstance();
         modelTheme = ModelTheme.getInstance();
     }
 
     public void onClickMenuSetting() {
-        view.showSetting(modelTheme.getList());
+        getViewState().showSetting(modelTheme.getList());
     }
 
     public Uri getUriToCamera(Context context) {
@@ -40,11 +41,11 @@ public class GaleryPresenter {
     }
 
     public void onClickImportCamera() {
-        view.showImportCamera();
+        getViewState().showImportCamera();
     }
 
     public void onClickImportGalery() {
-        view.showImportGalery();
+        getViewState().showImportGalery();
     }
 
     public void deleteTempFileCamera() {
@@ -56,9 +57,8 @@ public class GaleryPresenter {
     public void insertCamera(String uriString) {
         Photo photo = new Photo(Uri.parse(uriString).getLastPathSegment(), uriString);
         modelPhoto.insert(photo);
-        view.updateAdapter();
-        view.showLog("insertCamera", photo.getName() + " успешно добавлено");
-
+        getViewState().updateAdapter();
+        getViewState().showLog("insertCamera", photo.getName() + " успешно добавлено");
     }
 
     public void insertGalery(Context context, Uri uri) {
@@ -68,14 +68,14 @@ public class GaleryPresenter {
         } else {
             Photo photo = new Photo(newUri.getLastPathSegment(), newUri.toString());
             modelPhoto.insert(photo);
-            view.updateAdapter();
-            view.showLog("insertGalery", photo.getName() + " успешно добавлено");
+            getViewState().updateAdapter();
+            getViewState().showLog("insertGalery", photo.getName() + " успешно добавлено");
         }
 
     }
 
     public void onTabSelected(int position) {
-        view.updateAdapter();
+        getViewState().updateAdapter();
 
     }
 }

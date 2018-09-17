@@ -5,17 +5,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
@@ -27,9 +29,9 @@ import silantyevmn.ru.materialdesign.presenter.GaleryPresenter;
 import silantyevmn.ru.materialdesign.view.fragment.CustomFragmentPagerAdapter;
 import silantyevmn.ru.materialdesign.view.fragment.TabFragmentFactory;
 
-public class GaleryActivity extends AppCompatActivity
+public class GaleryActivity extends MvpAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IGaleryView {
-    private final GaleryPresenter presenter;
+    //private final GaleryPresenter presenter;
     private final int IMPORT_CAMERA_REQUEST = 1;
     private final int IMPORT_GALERY_REQUEST = 2;
     private final int SETTING_REQUEST = 3;
@@ -37,9 +39,19 @@ public class GaleryActivity extends AppCompatActivity
     private ViewPager mViewPager;
     private CustomFragmentPagerAdapter customFragmentPagerAdapter;
 
+    @InjectPresenter
+    GaleryPresenter presenter;
+
+    @ProvidePresenter
+    public GaleryPresenter provideSettingPresenter() {
+        presenter = new GaleryPresenter();
+        //TO SOMETHING WITH PRESENTER
+        return presenter;
+    }
+/*
     public GaleryActivity() {
         presenter = new GaleryPresenter(this);
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +90,6 @@ public class GaleryActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
