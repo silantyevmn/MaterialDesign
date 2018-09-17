@@ -19,8 +19,8 @@ public interface IPhotoModel extends IPhotoModelBase{
 
     Uri getUriToGalery(Context context, Uri uri);
 
-    void setIdFragment(int idFragment);
+   /* void setIdFragment(int idFragment);
 
-    int getIdFragment();
+    int getIdFragment();*/
 
 }
