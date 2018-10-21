@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
@@ -16,23 +19,18 @@ import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
 import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragment;
 import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
 
-/**
- * Created by silan on 25.08.2018.
- */
-
-public class PhotoPresenter {
-    private final IPhotoFragment view;
+@InjectViewState
+public class PhotoPresenter extends MvpPresenter<IPhotoFragment> {
     private final IPhotoModel model;
     private final IGaleryView mainActivity;
 
     public PhotoPresenter(PhotoFragment photoFragment) {
-        this.view = photoFragment;
         this.mainActivity = (IGaleryView) photoFragment.getActivity();
         model = PhotoModel.getInstance();
     }
 
     public void init(Context context) {
-        view.init(getPhotos(),model.getGridLayoutManagerSpan(context.getResources().getConfiguration().orientation));
+        getViewState().init(getPhotos(), model.getGridLayoutManagerSpan(context.getResources().getConfiguration().orientation));
     }
 
     private List<Photo> getPhotos() {
@@ -40,7 +38,7 @@ public class PhotoPresenter {
     }
 
     public void updateAdapter() {
-        view.setAdapter(getPhotos());
+        getViewState().setAdapter(getPhotos());
     }
 
     public void delete(int position, Activity activity) {
@@ -54,7 +52,7 @@ public class PhotoPresenter {
             Photo photo = getPhotos().get(position);
             model.delete(photo);
             updateAdapter();
-            view.showLog("delete", photo.getName() + " удалено из базы.");
+            getViewState().showLog("delete", photo.getName() + " удалено из базы.");
         });
     }
 
@@ -63,9 +61,9 @@ public class PhotoPresenter {
         updateAdapter();
         Photo newPhoto = getPhotos().get(position);
         if (newPhoto.isFavorite()) {
-            view.showLog("favourites", newPhoto.getName() + " добавлено в избранное.");
+            getViewState().showLog("favourites", newPhoto.getName() + " добавлено в избранное.");
         } else {
-            view.showLog("favourites", newPhoto.getName() + " удалено из избранного.");
+            getViewState().showLog("favourites", newPhoto.getName() + " удалено из избранного.");
         }
     }
 
@@ -88,14 +86,14 @@ public class PhotoPresenter {
     }
 
     public void onClickBottonMenuHome() {
-        view.showBottonHome();
+        getViewState().showBottonHome();
     }
 
     public void onClickBottonMenuDatabase() {
-        view.showBottonDatabase();
+        getViewState().showBottonDatabase();
     }
 
     public void onClickBottonMenuNetwork() {
-        view.showBottonNetwork();
+        getViewState().showBottonNetwork();
     }
 }

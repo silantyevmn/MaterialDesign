@@ -10,6 +10,7 @@ public class TabFragmentFactory {
         switch (position) {
             case 0:
                 return PhotoFragment.newInstance(null);
+            //return new PhotoFragment();
             case 1:
                 return PhotoFragmentFavorite.newInstance(null);
             default:

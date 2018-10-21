@@ -16,22 +16,36 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
+import silantyevmn.ru.materialdesign.presenter.PhotoPresenterFavorite;
 
-public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
+public class PhotoFragment extends MvpAppCompatFragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private FloatingActionButton fabCamera;
     private FloatingActionButton fabGalery;
-    private PhotoPresenter presenter;
     private PhotoAdapter adapter;
     private boolean isFABOpen = false;
     private ImageView imageViewTest;
+
+    @InjectPresenter
+    PhotoPresenter presenter;
+
+    @ProvidePresenter
+    public PhotoPresenter provideSettingPresenter() {
+        presenter = new PhotoPresenter(this);
+        //TO SOMETHING WITH PRESENTER
+        return presenter;
+    }
 
     public static PhotoFragment newInstance(Bundle bundle) {
         PhotoFragment currentFragment = new PhotoFragment();
@@ -44,7 +58,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new PhotoPresenter(this);
+        //presenter = new PhotoPresenter(this);
         showLog("PhotoFragment", "onCreate");
     }
 

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
@@ -15,26 +18,23 @@ import silantyevmn.ru.materialdesign.view.DialogView;
 import silantyevmn.ru.materialdesign.view.activity.GaleryActivity;
 import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
 import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragment;
+import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragmentFavorite;
 import silantyevmn.ru.materialdesign.view.fragment.PhotoFragmentFavorite;
 
-/**
- * Created by silan on 25.08.2018.
- */
 
-public class PhotoPresenterFavorite {
-    private final IPhotoFragment view;
+@InjectViewState
+public class PhotoPresenterFavorite extends MvpPresenter<IPhotoFragmentFavorite> {
     private final IPhotoModel model;
     private final IGaleryView mainActivity;
 
     public PhotoPresenterFavorite(PhotoFragmentFavorite photoFragment) {
-        this.view = photoFragment;
         this.mainActivity = (GaleryActivity) photoFragment.getActivity();
         model = PhotoModel.getInstance();
     }
 
     //создание View
     public void init(Context context) {
-        view.init(getPhotos(), model.getGridLayoutManagerSpan(context.getResources().getConfiguration().orientation));
+        getViewState().init(getPhotos(), model.getGridLayoutManagerSpan(context.getResources().getConfiguration().orientation));
     }
 
     private List<Photo> getPhotos() {
@@ -42,7 +42,7 @@ public class PhotoPresenterFavorite {
     }
 
     public void updateAdapter() {
-        view.setAdapter(getPhotos());
+        getViewState().setAdapter(getPhotos());
     }
 
     public void delete(int position, Activity activity) {
@@ -55,7 +55,7 @@ public class PhotoPresenterFavorite {
         new DialogView(activity, activity.getString(R.string.dialog_title_delete), () -> {
             model.delete(getPhotos().get(position));
             updateAdapter();
-            view.showLog("delete", String.valueOf(position));
+            getViewState().showLog("delete", String.valueOf(position));
         });
 
     }
@@ -63,7 +63,7 @@ public class PhotoPresenterFavorite {
     public void favorite(int position) {
         model.update(getPhotos().get(position));
         updateAdapter();
-        view.showLog("favourites", String.valueOf(position));
+        getViewState().showLog("favourites", String.valueOf(position));
     }
 
     public void onClickPhoto(int adapterPosition) {
