@@ -2,15 +2,17 @@ package silantyevmn.ru.materialdesign.model.photo;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+
 
 public interface IPhotoModelBase {
-    List<Photo> getList();
+    Observable<List<Photo>> getList();
 
-    void insert(Photo photo);
+    Observable insert(Photo photo);
 
-    void delete(Photo photo);
+    Observable delete(Photo photo);
 
-    void update(Photo photo);
+    Observable update(Photo photo);
 
-    List<Photo> getListFavorite();
+    Observable<List<Photo>> getListFavorite();
 }
