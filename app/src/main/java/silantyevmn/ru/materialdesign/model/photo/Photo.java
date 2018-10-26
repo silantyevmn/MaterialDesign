@@ -46,4 +46,12 @@ public class Photo {
     public String getName() {
         return name;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Photo)) return false;
+
+        return this.name.equals(((Photo) obj).getName());
+    }
 }
