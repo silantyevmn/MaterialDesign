@@ -5,6 +5,9 @@ import android.content.Context;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by silan on 16.09.2018.
  */
@@ -19,37 +22,47 @@ public class PhotoModelDataBase implements IPhotoModelBase {
     }
 
     @Override
-    public List<Photo> getList() {
-        return photoBase.photoDao().getList();
+    public Observable<List<Photo>> getList() {
+        return Observable.just(photoBase.photoDao().getList());
     }
 
     @Override
-    public void insert(Photo photo) {
-        photoBase.photoDao().insert(photo);
+    public Observable insert(Photo photo) {
+        return Observable.just(photo)
+                .doOnNext(p -> {
+                    photoBase.photoDao().insert(p);
+                }).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public void delete(Photo photo) {
-        photoBase.photoDao().delete(photo);
+    public Observable delete(Photo photo) {
+        return Observable.just(photo)
+                .doOnNext(p -> {
+                    photoBase.photoDao().delete(photo);
+                }).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public void update(Photo photo) {
-        photoBase.photoDao().update(photo);
+    public Observable update(Photo photo) {
+        return Observable.just(photo)
+                .doOnNext(p -> {
+                    photoBase.photoDao().update(photo);
+                })
+                .subscribeOn(Schedulers.io());
     }
 
     @Override
-    public List<Photo> getListFavorite() {
-        return photoBase.photoDao().getListFavorite();
+    public Observable<List<Photo>> getListFavorite() {
+        return Observable.just(photoBase.photoDao().getListFavorite());
     }
 
-    public static PhotoModelDataBase getInstance(){
+    public static PhotoModelDataBase getInstance() {
         return instance;
     }
 
-    public static void init(Context context){
-        if(instance==null){
-            instance=new PhotoModelDataBase(context);
+    public static void init(Context context) {
+        if (instance == null) {
+            instance = new PhotoModelDataBase(context);
         }
     }
 
