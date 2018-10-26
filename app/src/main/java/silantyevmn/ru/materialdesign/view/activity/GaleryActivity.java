@@ -47,10 +47,6 @@ public class GaleryActivity extends MvpAppCompatActivity
         //TO SOMETHING WITH PRESENTER
         return presenter;
     }
-/*
-    public GaleryActivity() {
-        presenter = new GaleryPresenter(this);
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
