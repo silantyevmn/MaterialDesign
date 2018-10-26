@@ -15,6 +15,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.R;
 
 /**
@@ -50,22 +52,26 @@ public class PhotoDataFile implements IPhotoDataFile {
     }
 
     @Override
-    public void delete(Photo photo) {
-        for (File file : storageDIR.listFiles()) {
-            if (file.getName().equals(photo.getName())) {
-                file.delete();
-                return;
-            }
-        }
+    public Observable delete(Photo photo) {
+        return Observable.just(photo)
+                .doOnNext(p -> {
+                    for (File file : storageDIR.listFiles()) {
+                        if (file.getName().equals(photo.getName())) {
+                            file.delete();
+                        }
+                    }
+                })
+                .subscribeOn(Schedulers.io());
+
     }
 
     @Override
-    public void update(Photo photo) {
-
+    public Observable update(Photo photo) {
+        return null;
     }
 
     @Override
-    public List<Photo> getListFavorite() {
+    public Observable<List<Photo>> getListFavorite() {
         return null;
     }
 
@@ -107,13 +113,13 @@ public class PhotoDataFile implements IPhotoDataFile {
     }
 
     @Override
-    public List<Photo> getList() {
+    public Observable<List<Photo>> getList() {
         return null;
     }
 
     @Override
-    public void insert(Photo photo) {
-        //
+    public Observable insert(Photo photo) {
+        return Observable.just(photo);
     }
 
     public static PhotoDataFile getInstance() {
