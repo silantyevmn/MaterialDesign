@@ -7,6 +7,10 @@ import android.net.Uri;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.IPhotoModel;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
@@ -15,11 +19,8 @@ import silantyevmn.ru.materialdesign.model.theme.IModelTheme;
 import silantyevmn.ru.materialdesign.model.theme.ModelTheme;
 import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
 
-/**
- * Created by silan on 24.08.2018.
- */
 @InjectViewState
-public class GaleryPresenter extends MvpPresenter<IGaleryView>{
+public class GaleryPresenter extends MvpPresenter<IGaleryView> {
     private final IPhotoModel modelPhoto;
     private final IModelTheme modelTheme;
 
@@ -56,21 +57,26 @@ public class GaleryPresenter extends MvpPresenter<IGaleryView>{
 
     public void insertCamera(String uriString) {
         Photo photo = new Photo(Uri.parse(uriString).getLastPathSegment(), uriString);
-        modelPhoto.insert(photo);
-        getViewState().updateAdapter();
-        getViewState().showLog("insertCamera", photo.getName() + " успешно добавлено");
+        modelPhoto.insert(photo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(e -> {
+                            getViewState().updateAdapter();
+                            getViewState().showLog("insertCamera", photo.getName() + " успешно добавлено");
+                        }
+                );
     }
 
     public void insertGalery(Context context, Uri uri) {
         Uri newUri = modelPhoto.getUriToGalery(context, uri);
-        if (newUri == null) {
-            //ошибка
-        } else {
-            Photo photo = new Photo(newUri.getLastPathSegment(), newUri.toString());
-            modelPhoto.insert(photo);
-            getViewState().updateAdapter();
-            getViewState().showLog("insertGalery", photo.getName() + " успешно добавлено");
-        }
+        if(newUri==null)
+            return;
+        Photo photo=new Photo(newUri.getLastPathSegment(), newUri.toString());
+        modelPhoto.insert(photo)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(e->{
+                    getViewState().updateAdapter();
+                    getViewState().showLog("insertGalery", photo.getName() + " успешно добавлено");
+                });
 
     }
 
