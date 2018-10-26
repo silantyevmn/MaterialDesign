@@ -6,51 +6,53 @@ import android.net.Uri;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
+import silantyevmn.ru.materialdesign.model.cache.CachePaper;
+import silantyevmn.ru.materialdesign.model.cache.ICache;
 
-/**
- * Created by silan on 18.08.2018.
- */
 
 public class PhotoModel implements IPhotoModel {
     private IPhotoDataFile dataFile;
     private static PhotoModel modelPhoto;
     private DataSharedPreference dataSharedPreference;
     private PhotoModelDataBase dataBase;
+    //
+    private ICache cache;
 
     private PhotoModel() {
         dataFile = PhotoDataFile.getInstance();
         dataBase = PhotoModelDataBase.getInstance();
         dataSharedPreference = DataSharedPreference.getInstance();
+        cache = new CachePaper();
     }
 
     @Override
-    public List<Photo> getList() {
-        return dataBase.getList();
+    public Observable<List<Photo>> getList() {
+        //if online
+        //return internet api
+        return cache.getList();
     }
 
     @Override
-    public void insert(Photo photo) {
-        dataFile.insert(photo);
-        dataBase.insert(photo);
+    public Observable insert(Photo photo) {
+        return cache.insert(photo);
     }
 
     @Override
-    public void delete(Photo photo) {
-        dataFile.delete(photo);
-        dataBase.delete(photo);
+    public Observable delete(Photo photo) {
+        return cache.delete(photo);
     }
 
     @Override
-    public void update(Photo photo) {
-        photo.setFavorite(!photo.isFavorite());
-        dataBase.update(photo);
-        dataSharedPreference.setFavorite(photo.getName(), photo.isFavorite());
+    public Observable update(Photo photo) {
+        return cache.update(photo);
     }
 
     @Override
-    public List<Photo> getListFavorite() {
-        return dataBase.getListFavorite();
+    public Observable<List<Photo>> getListFavorite() {
+        return cache.getListFavorite();
+        //return dataBase.getListFavorite();
     }
 
     // пока реализовал таким способом, с дальнейщей возможностью вынести количество фото в настройки
@@ -59,7 +61,7 @@ public class PhotoModel implements IPhotoModel {
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             return dataSharedPreference.getCurrentSpan();
         } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return dataSharedPreference.getCurrentSpan()+1;
+            return dataSharedPreference.getCurrentSpan() + 1;
         }
         return dataSharedPreference.getCurrentSpan();
     }
@@ -79,16 +81,6 @@ public class PhotoModel implements IPhotoModel {
     public Uri getUriToGalery(Context context, Uri uri) {
         return dataFile.getUriToGalery(context, uri);
     }
-
-/*    @Override
-    public void setIdFragment(int idFragment) {
-        dataSharedPreference.setIdFragment(idFragment);
-    }
-
-    @Override
-    public int getIdFragment() {
-        return dataSharedPreference.getIdFragment();
-    }*/
 
     public static PhotoModel getInstance() {
         return modelPhoto;
