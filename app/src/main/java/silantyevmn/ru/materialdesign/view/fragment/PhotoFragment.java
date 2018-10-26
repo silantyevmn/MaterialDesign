@@ -22,11 +22,13 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenterFavorite;
+import silantyevmn.ru.materialdesign.view.activity.GaleryActivity;
 
 public class PhotoFragment extends MvpAppCompatFragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
     private RecyclerView recyclerView;
@@ -42,7 +44,7 @@ public class PhotoFragment extends MvpAppCompatFragment implements IPhotoFragmen
 
     @ProvidePresenter
     public PhotoPresenter provideSettingPresenter() {
-        presenter = new PhotoPresenter(this);
+        presenter = new PhotoPresenter(AndroidSchedulers.mainThread());
         //TO SOMETHING WITH PRESENTER
         return presenter;
     }
@@ -103,8 +105,8 @@ public class PhotoFragment extends MvpAppCompatFragment implements IPhotoFragmen
         isFABOpen = true;
         fabCamera.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         fabGalery.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-        fabCamera.setOnClickListener(view -> presenter.onClickImportCamera(getActivity()));
-        fabGalery.setOnClickListener(view -> presenter.onClickImportGalery(getActivity()));
+        fabCamera.setOnClickListener(view -> presenter.onClickImportCamera((GaleryActivity) getActivity()));
+        fabGalery.setOnClickListener(view -> presenter.onClickImportGalery((GaleryActivity) getActivity()));
     }
 
     private void closeFABMenu() {
@@ -175,7 +177,7 @@ public class PhotoFragment extends MvpAppCompatFragment implements IPhotoFragmen
 
     @Override
     public void onClickPhoto(int position) {
-        presenter.onClickPhoto(position);
+        presenter.onClickPhoto((GaleryActivity) getActivity(),position);
     }
 
     @Override
