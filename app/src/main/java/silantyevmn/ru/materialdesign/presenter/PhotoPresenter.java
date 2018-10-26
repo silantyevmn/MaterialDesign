@@ -9,6 +9,9 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.IPhotoModel;
@@ -17,28 +20,36 @@ import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.view.DialogView;
 import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
 import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragment;
-import silantyevmn.ru.materialdesign.view.fragment.PhotoFragment;
 
 @InjectViewState
 public class PhotoPresenter extends MvpPresenter<IPhotoFragment> {
     private final IPhotoModel model;
-    private final IGaleryView mainActivity;
+    private Scheduler mainScheduler;
+    private List<Photo> photos;
 
-    public PhotoPresenter(PhotoFragment photoFragment) {
-        this.mainActivity = (IGaleryView) photoFragment.getActivity();
+    public PhotoPresenter(Scheduler mainScheduler) {
+        this.mainScheduler = mainScheduler;
         model = PhotoModel.getInstance();
     }
 
     public void init(Context context) {
-        getViewState().init(getPhotos(), model.getGridLayoutManagerSpan(context.getResources().getConfiguration().orientation));
+        getPhotos().observeOn(mainScheduler)
+                .subscribe(list -> {
+                    photos = list;
+                    getViewState().init(list, model.getGridLayoutManagerSpan(context.getResources().getConfiguration().orientation));
+                });
     }
 
-    private List<Photo> getPhotos() {
-        return model.getList();
+    private Observable<List<Photo>> getPhotos() {
+        return model.getList().subscribeOn(Schedulers.io());
     }
 
     public void updateAdapter() {
-        getViewState().setAdapter(getPhotos());
+        getPhotos().observeOn(mainScheduler)
+                .subscribe(list -> {
+                    photos = list;
+                    getViewState().setAdapter(list);
+                });
     }
 
     public void delete(int position, Activity activity) {
@@ -49,40 +60,51 @@ public class PhotoPresenter extends MvpPresenter<IPhotoFragment> {
             return;
         }
         new DialogView(activity, activity.getString(R.string.dialog_title_delete), () -> {
-            Photo photo = getPhotos().get(position);
-            model.delete(photo);
+            Photo photo = photos.get(position);
+            model.delete(photo)
+                    .observeOn(mainScheduler)
+                    .subscribe(p -> {
+                        updateAdapter();
+                        getViewState().showLog("delete", photo.getName() + " удалено из базы.");
+                    });
+           /* model.delete(photo);
             updateAdapter();
-            getViewState().showLog("delete", photo.getName() + " удалено из базы.");
+            getViewState().showLog("delete", photo.getName() + " удалено из базы.");*/
         });
     }
 
     public void favorite(int position) {
-        model.update(getPhotos().get(position));
-        updateAdapter();
-        Photo newPhoto = getPhotos().get(position);
-        if (newPhoto.isFavorite()) {
-            getViewState().showLog("favourites", newPhoto.getName() + " добавлено в избранное.");
-        } else {
-            getViewState().showLog("favourites", newPhoto.getName() + " удалено из избранного.");
-        }
+        Photo photo = photos.get(position);
+        photo.setFavorite(!photo.isFavorite());
+        model.update(photo)
+                .observeOn(mainScheduler)
+                .subscribe(p -> {
+                            updateAdapter();
+                            if (photo.isFavorite()) {
+                                getViewState().showLog("favourites", photo.getName() + " добавлено в избранное.");
+                            } else {
+                                getViewState().showLog("favourites", photo.getName() + " удалено из избранного.");
+                            }
+                        }
+                );
     }
 
-    public void onClickImportCamera(Activity activity) {
+    public void onClickImportCamera(IGaleryView galeryView) {
         //todo test import camera
-        mainActivity.showImportCamera();
+        galeryView.showImportCamera();
     }
 
-    public void onClickPhoto(int adapterPosition) {
-        mainActivity.showFullPhoto(getPhotos().get(adapterPosition));
+    public void onClickPhoto(IGaleryView galeryView, int adapterPosition) {
+        galeryView.showFullPhoto(photos.get(adapterPosition));
     }
 
     public int getGridLayoutManagerSpan(int orientation) {
         return model.getGridLayoutManagerSpan(orientation);
     }
 
-    public void onClickImportGalery(Activity activity) {
+    public void onClickImportGalery(IGaleryView galeryView) {
         //todo test import galery
-        mainActivity.showImportGalery();
+        galeryView.showImportGalery();
     }
 
     public void onClickBottonMenuHome() {
