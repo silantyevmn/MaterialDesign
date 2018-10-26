@@ -18,6 +18,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
@@ -33,7 +34,7 @@ public class PhotoFragmentFavorite extends MvpAppCompatFragment implements IPhot
 
     @ProvidePresenter
     public PhotoPresenterFavorite provideSettingPresenter() {
-        presenter = new PhotoPresenterFavorite(this);
+        presenter = new PhotoPresenterFavorite(this, AndroidSchedulers.mainThread());
         //TO SOMETHING WITH PRESENTER
         return presenter;
     }
