@@ -8,9 +8,6 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 
-/**
- * Created by silan on 16.09.2018.
- */
 
 public class PhotoModelDataBase implements IPhotoModelBase {
     private static PhotoModelDataBase instance;

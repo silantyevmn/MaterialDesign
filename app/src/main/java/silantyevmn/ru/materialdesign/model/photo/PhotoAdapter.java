@@ -14,9 +14,6 @@ import java.util.List;
 
 import silantyevmn.ru.materialdesign.R;
 
-/**
- * Created by silan on 25.08.2018.
- */
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.MyViewHolder> {
     private final int PHOTO_WIDTH = 0; //длина фото 0 значит, что может растягиваться по горизонтали

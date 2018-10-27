@@ -9,9 +9,7 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-/**
- * Created by silan on 16.09.2018.
- */
+
 @Dao
 public interface PhotoDao {
     @Query("SELECT * FROM photo")

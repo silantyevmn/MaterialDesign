@@ -19,9 +19,6 @@ import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.R;
 
-/**
- * Created by silan on 29.08.2018.
- */
 
 public class PhotoDataFile implements IPhotoDataFile {
     private static PhotoDataFile fileOperation;
