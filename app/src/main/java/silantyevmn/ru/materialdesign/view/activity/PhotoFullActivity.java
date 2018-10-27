@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 
@@ -24,6 +26,11 @@ public class PhotoFullActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ImageView imageView = findViewById(R.id.image_full);
         Uri uri = Uri.parse((getIntent().getStringExtra(PHOTO_FULL_ACTIVITY_KEY)));
-        imageView.setImageURI(uri);
+        Picasso.get()
+                .load(uri)
+                .placeholder(R.drawable.ic_autorenew_black)
+                .error(R.drawable.ic_crop_original_black)
+                .into(imageView);
+        //imageView.setImageURI(uri);
     }
 }

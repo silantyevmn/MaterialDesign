@@ -8,51 +8,47 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.cache.CachePaper;
-import silantyevmn.ru.materialdesign.model.cache.ICache;
+import silantyevmn.ru.materialdesign.model.api.ApiService;
+import silantyevmn.ru.materialdesign.model.api.ApiServiceImpl;
 
 
 public class PhotoModel implements IPhotoModel {
-    private IPhotoDataFile dataFile;
     private static PhotoModel modelPhoto;
+    private IPhotoDataFile dataFile;
     private DataSharedPreference dataSharedPreference;
-    private PhotoModelDataBase dataBase;
-    //
-    private ICache cache;
+
+    private ApiServiceImpl apiService;
 
     private PhotoModel() {
         dataFile = PhotoDataFile.getInstance();
-        dataBase = PhotoModelDataBase.getInstance();
         dataSharedPreference = DataSharedPreference.getInstance();
-        cache = new CachePaper();
+        //apiService = PhotoRoom.getInstance(); //меняем на CachePaper, получаем базу данных PaperDb
+        apiService = new ApiServiceImpl();
     }
 
     @Override
     public Observable<List<Photo>> getList() {
-        //if online
-        //return internet api
-        return cache.getList();
+        return apiService.getList();
     }
 
     @Override
     public Observable insert(Photo photo) {
-        return cache.insert(photo);
+        return apiService.insert(photo);
     }
 
     @Override
     public Observable delete(Photo photo) {
-        return cache.delete(photo);
+        return apiService.delete(photo);
     }
 
     @Override
     public Observable update(Photo photo) {
-        return cache.update(photo);
+        return apiService.update(photo);
     }
 
     @Override
     public Observable<List<Photo>> getListFavorite() {
-        return cache.getListFavorite();
-        //return dataBase.getListFavorite();
+        return apiService.getListFavorite();
     }
 
     // пока реализовал таким способом, с дальнейщей возможностью вынести количество фото в настройки

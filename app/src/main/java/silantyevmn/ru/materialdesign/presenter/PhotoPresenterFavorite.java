@@ -48,7 +48,7 @@ public class PhotoPresenterFavorite extends MvpPresenter<IPhotoFragmentFavorite>
     }
 
     private Observable<List<Photo>> getPhotos() {
-        return model.getListFavorite().subscribeOn(Schedulers.io());
+        return model.getListFavorite();
     }
 
     public void updateAdapter() {

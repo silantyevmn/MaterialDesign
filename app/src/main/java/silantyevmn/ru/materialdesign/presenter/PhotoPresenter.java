@@ -41,7 +41,7 @@ public class PhotoPresenter extends MvpPresenter<IPhotoFragment> {
     }
 
     private Observable<List<Photo>> getPhotos() {
-        return model.getList().subscribeOn(Schedulers.io());
+        return model.getList();
     }
 
     public void updateAdapter() {

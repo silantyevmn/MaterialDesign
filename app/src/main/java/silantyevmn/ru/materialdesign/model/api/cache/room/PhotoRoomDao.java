@@ -1,4 +1,4 @@
-package silantyevmn.ru.materialdesign.model.photo;
+package silantyevmn.ru.materialdesign.model.api.cache.room;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -9,9 +9,11 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import silantyevmn.ru.materialdesign.model.photo.Photo;
+
 
 @Dao
-public interface PhotoDao {
+public interface PhotoRoomDao {
     @Query("SELECT * FROM photo")
     List<Photo> getList();
 

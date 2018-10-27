@@ -3,10 +3,8 @@ package silantyevmn.ru.materialdesign.model.photo;
 import android.content.Context;
 import android.net.Uri;
 
-import java.util.List;
 
-
-public interface IPhotoModel extends IPhotoModelBase{
+public interface IPhotoModel extends IPhotoModelBase {
 
     int getGridLayoutManagerSpan(int orientation);
 
@@ -15,9 +13,5 @@ public interface IPhotoModel extends IPhotoModelBase{
     void setUriCamera(String photoUriCameraToString);
 
     Uri getUriToGalery(Context context, Uri uri);
-
-   /* void setIdFragment(int idFragment);
-
-    int getIdFragment();*/
 
 }

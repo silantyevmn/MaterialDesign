@@ -1,9 +1,11 @@
 package silantyevmn.ru.materialdesign.model.api;
 
-/**
- * Created by silan on 21.10.2018.
- */
+import java.util.List;
+
+import io.reactivex.Observable;
+import silantyevmn.ru.materialdesign.model.photo.Photo;
+
 
 public interface ApiService {
-
+    Observable<List<Photo>> getList();
 }
