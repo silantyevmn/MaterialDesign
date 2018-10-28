@@ -67,9 +67,6 @@ public class PhotoPresenter extends MvpPresenter<IPhotoFragment> {
                         updateAdapter();
                         getViewState().showLog("delete", photo.getName() + " удалено из базы.");
                     });
-           /* model.delete(photo);
-            updateAdapter();
-            getViewState().showLog("delete", photo.getName() + " удалено из базы.");*/
         });
     }
 

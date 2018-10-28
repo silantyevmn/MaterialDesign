@@ -22,7 +22,6 @@ public class PhotoModel implements IPhotoModel {
     private PhotoModel() {
         dataFile = PhotoDataFile.getInstance();
         dataSharedPreference = DataSharedPreference.getInstance();
-        //apiService = PhotoRoom.getInstance(); //меняем на CachePaper, получаем базу данных PaperDb
         apiService = new ApiServiceImpl();
     }
 

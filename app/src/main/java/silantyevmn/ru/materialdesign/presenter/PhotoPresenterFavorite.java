@@ -11,7 +11,6 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
-import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.IPhotoModel;
