@@ -59,9 +59,10 @@ public class GaleryPresenter extends MvpPresenter<IGaleryView> {
         Photo photo = new Photo(Uri.parse(uriString).getLastPathSegment(), uriString);
         modelPhoto.insert(photo)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(e -> {
+                .subscribe(() -> {
                             getViewState().updateAdapter();
                             getViewState().showLog("insertCamera", photo.getName() + " успешно добавлено");
+
                         }
                 );
     }
@@ -73,7 +74,7 @@ public class GaleryPresenter extends MvpPresenter<IGaleryView> {
         Photo photo=new Photo(newUri.getLastPathSegment(), newUri.toString());
         modelPhoto.insert(photo)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(e->{
+                .subscribe(()->{
                     getViewState().updateAdapter();
                     getViewState().showLog("insertGalery", photo.getName() + " успешно добавлено");
                 });

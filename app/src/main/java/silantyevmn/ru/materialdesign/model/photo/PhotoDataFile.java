@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.R;
@@ -49,21 +50,19 @@ public class PhotoDataFile implements IPhotoDataFile {
     }
 
     @Override
-    public Observable delete(Photo photo) {
-        return Observable.just(photo)
-                .doOnNext(p -> {
-                    for (File file : storageDIR.listFiles()) {
-                        if (file.getName().equals(photo.getName())) {
-                            file.delete();
-                        }
-                    }
-                })
-                .subscribeOn(Schedulers.io());
-
+    public Completable delete(Photo photo) {
+        return Completable.create(e->{
+            for (File file : storageDIR.listFiles()) {
+                if (file.getName().equals(photo.getName())) {
+                    file.delete();
+                }
+            }
+            e.onComplete();
+        });
     }
 
     @Override
-    public Observable update(Photo photo) {
+    public Completable update(Photo photo) {
         return null;
     }
 
@@ -115,8 +114,8 @@ public class PhotoDataFile implements IPhotoDataFile {
     }
 
     @Override
-    public Observable insert(Photo photo) {
-        return Observable.just(photo);
+    public Completable insert(Photo photo) {
+        return null;
     }
 
     public static PhotoDataFile getInstance() {

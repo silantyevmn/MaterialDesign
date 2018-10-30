@@ -1,11 +1,10 @@
 package silantyevmn.ru.materialdesign.model.api.cache.paper;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import io.paperdb.Paper;
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.model.api.cache.ICache;
@@ -18,15 +17,6 @@ public class CachePaper implements ICache {
 
     @Override
     public Observable<List<Photo>> getList() {
-       /* return Observable.create(e -> {
-            List<Photo> photos = Paper.book(NAME).read(KEY);
-            if (photos == null) {
-                photos = new ArrayList<>();
-            }
-            Log.i("Thread cachePaper ", Thread.currentThread().getName());
-            e.onNext(photos);
-            e.onComplete();
-        });*/
         return Observable.just(new ArrayList<Photo>())
                 .map(list -> {
                     List<Photo> photos = Paper.book(NAME).read(KEY);
@@ -34,55 +24,48 @@ public class CachePaper implements ICache {
                         photos = list;
                     }
                     return photos;
-                }).subscribeOn(Schedulers.io());
+                });
 
     }
 
     @Override
-    public Observable insert(Photo photo) {
-        return Observable.just(photo)
-                .doOnNext(p -> {
-                    List<Photo> photos = Paper.book(NAME).read(KEY);
-                    if (photos == null) {
-                        photos = new ArrayList<>();
-                    }
-                    photos.add(p);
-                    Paper.book(NAME).write(KEY, photos);
-                })
-                .subscribeOn(Schedulers.io());
-        /*List<Photo> photos = Paper.book(NAME).read(KEY);
-        if (photos == null) {
-            photos = new ArrayList<>();
-        }
-        photos.add(photo);
-        Paper.book(NAME).write(KEY, photos);*/
+    public Completable insert(Photo photo) {
+        return Completable.create(e->{
+            List<Photo> photos = Paper.book(NAME).read(KEY);
+            if (photos == null) {
+                photos = new ArrayList<>();
+            }
+            photos.add(photo);
+            Paper.book(NAME).write(KEY, photos);
+            e.onComplete();
+        });
+    }
+
+
+    @Override
+    public Completable delete(Photo photo) {
+        return Completable.create(e->{
+            List<Photo> photos = Paper.book(NAME).read(KEY);
+            if (photos == null) {
+                return;
+            } else {
+                photos.remove(photo);
+                Paper.book(NAME).write(KEY, photos);
+            }
+            e.onComplete();
+        });
     }
 
     @Override
-    public Observable delete(Photo photo) {
-        return Observable.just(photo)
-                .doOnNext(p -> {
-                    List<Photo> photos = Paper.book(NAME).read(KEY);
-                    if (photos == null) {
-                        return;
-                    } else {
-                        photos.remove(photo);
-                        Paper.book(NAME).write(KEY, photos);
-                    }
-                }).subscribeOn(Schedulers.io());
-
-    }
-
-    @Override
-    public Observable update(Photo photo) {
-        return Observable.just(photo)
-                .doOnNext(p -> {
-                    List<Photo> photos = Paper.book(NAME).read(KEY);
-                    if (photos != null) {
-                        photos.set(photos.indexOf(photo), photo);
-                        Paper.book(NAME).write(KEY, photos);
-                    }
-                }).subscribeOn(Schedulers.io());
+    public Completable update(Photo photo) {
+        return Completable.create(e->{
+            List<Photo> photos = Paper.book(NAME).read(KEY);
+            if (photos != null) {
+                photos.set(photos.indexOf(photo), photo);
+                Paper.book(NAME).write(KEY, photos);
+            }
+            e.onComplete();
+        });
     }
 
     @Override
@@ -102,12 +85,16 @@ public class CachePaper implements ICache {
                         }
                     }
                     return photosFavorite;
-                }).subscribeOn(Schedulers.io());
+                });
     }
 
     @Override
-    public void insertAll(List<Photo> photos) {
-        Paper.book(NAME).write(KEY, photos);
+    public Completable insertAll(List<Photo> photos) {
+        return Completable.create(e->{
+            Paper.book(NAME).write(KEY, photos);
+            e.onComplete();
+        });
+
 
     }
 

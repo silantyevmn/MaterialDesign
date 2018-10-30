@@ -2,11 +2,11 @@ package silantyevmn.ru.materialdesign.model.api;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.model.NetworkStatus;
 import silantyevmn.ru.materialdesign.model.api.cache.ICache;
-import silantyevmn.ru.materialdesign.model.api.cache.paper.CachePaper;
 import silantyevmn.ru.materialdesign.model.api.cache.room.PhotoRoom;
 import silantyevmn.ru.materialdesign.model.api.retrofit.OpenPhotoRetrofitImpl;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
@@ -37,37 +37,37 @@ public class ApiServiceImpl implements ApiService, ICache {
                                 }
                             }
                         isComplete = true;
-                        cache.insertAll(list);
+                        cache.insertAll(list).subscribeOn(Schedulers.io());
                         return list;
                     });
         } else {
-            return cache.getList();
+            return cache.getList().subscribeOn(Schedulers.io());
         }
     }
 
     @Override
-    public Observable insert(Photo photo) {
-        return cache.insert(photo);
+    public Completable insert(Photo photo) {
+        return cache.insert(photo).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable delete(Photo photo) {
-        return cache.delete(photo);
+    public Completable delete(Photo photo) {
+        return cache.delete(photo).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Observable update(Photo photo) {
-        return cache.update(photo);
+    public Completable update(Photo photo) {
+        return cache.update(photo).subscribeOn(Schedulers.io());
     }
 
     @Override
     public Observable<List<Photo>> getListFavorite() {
-        return cache.getListFavorite();
+        return cache.getListFavorite().subscribeOn(Schedulers.io());
     }
 
     @Override
-    public void insertAll(List<Photo> photos) {
-        //
+    public Completable insertAll(List<Photo> photos) {
+        return cache.insertAll(photos).subscribeOn(Schedulers.io());
     }
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
+import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
@@ -63,7 +64,7 @@ public class PhotoPresenter extends MvpPresenter<IPhotoFragment> {
             Photo photo = photos.get(position);
             model.delete(photo)
                     .observeOn(mainScheduler)
-                    .subscribe(p -> {
+                    .subscribe(()->{
                         updateAdapter();
                         getViewState().showLog("delete", photo.getName() + " удалено из базы.");
                     });
@@ -73,17 +74,15 @@ public class PhotoPresenter extends MvpPresenter<IPhotoFragment> {
     public void favorite(int position) {
         Photo photo = photos.get(position);
         photo.setFavorite(!photo.isFavorite());
-        model.update(photo)
-                .observeOn(mainScheduler)
-                .subscribe(p -> {
-                            updateAdapter();
-                            if (photo.isFavorite()) {
-                                getViewState().showLog("favourites", photo.getName() + " добавлено в избранное.");
-                            } else {
-                                getViewState().showLog("favourites", photo.getName() + " удалено из избранного.");
-                            }
-                        }
-                );
+        model.update(photo).observeOn(mainScheduler)
+                .subscribe(() -> {
+                    updateAdapter();
+                    if (photo.isFavorite()) {
+                        getViewState().showLog("favourites", photo.getName() + " добавлено в избранное.");
+                    } else {
+                        getViewState().showLog("favourites", photo.getName() + " удалено из избранного.");
+                    }
+                });
     }
 
     public void onClickImportCamera(IGaleryView galeryView) {

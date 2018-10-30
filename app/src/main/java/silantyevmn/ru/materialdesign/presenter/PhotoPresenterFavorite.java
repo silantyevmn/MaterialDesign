@@ -69,7 +69,7 @@ public class PhotoPresenterFavorite extends MvpPresenter<IPhotoFragmentFavorite>
         new DialogView(activity, activity.getString(R.string.dialog_title_delete), () -> {
             model.delete(photos.get(position))
                     .observeOn(mainSheduler)
-                    .subscribe(p -> {
+                    .subscribe(() -> {
                         updateAdapter();
                         getViewState().showLog("delete", String.valueOf(position));
                     });
@@ -82,7 +82,7 @@ public class PhotoPresenterFavorite extends MvpPresenter<IPhotoFragmentFavorite>
         photo.setFavorite(!photo.isFavorite());
         model.update(photo)
                 .observeOn(mainSheduler)
-                .subscribe(p -> {
+                .subscribe(() -> {
                     updateAdapter();
                     getViewState().showLog("favourites", String.valueOf(position));
                 });

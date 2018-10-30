@@ -5,6 +5,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.model.api.cache.ICache;
@@ -22,46 +23,47 @@ public class PhotoRoom implements ICache {
 
     @Override
     public Observable<List<Photo>> getList() {
-        return Observable.just(database.photoDao().getList())
-                .subscribeOn(Schedulers.io());
+        return Observable.just(database.photoDao().getList());
     }
 
     @Override
-    public Observable insert(Photo photo) {
-        return Observable.just(photo)
-                .doOnNext(p -> {
-                    database.photoDao().insert(p);
-                }).subscribeOn(Schedulers.io());
+    public Completable insert(Photo photo) {
+        return Completable.create(e->{
+            database.photoDao().insert(photo);
+            e.onComplete();
+        });
     }
 
     @Override
-    public Observable delete(Photo photo) {
-        return Observable.just(photo)
-                .doOnNext(p -> {
-                    database.photoDao().delete(p);
-                }).subscribeOn(Schedulers.io());
+    public Completable delete(Photo photo) {
+        return Completable.create(e->{
+            database.photoDao().delete(photo);
+            e.onComplete();
+        });
     }
 
     @Override
-    public Observable update(Photo photo) {
-        return Observable.just(photo)
-                .doOnNext(p -> {
-                    database.photoDao().update(p);
-                })
-                .subscribeOn(Schedulers.io());
+    public Completable update(Photo photo) {
+        return Completable.create(e->{
+            database.photoDao().update(photo);
+            e.onComplete();
+        });
     }
 
     @Override
     public Observable<List<Photo>> getListFavorite() {
-        return Observable.just(database.photoDao().getListFavorite())
-                .subscribeOn(Schedulers.io());
+        return Observable.just(database.photoDao().getListFavorite());
     }
 
     @Override
-    public void insertAll(List<Photo> photos) {
-        for (Photo photo : photos) {
-            database.photoDao().insert(photo);
-        }
+    public Completable insertAll(List<Photo> photos) {
+        return Completable.create(e->{
+            for (Photo photo : photos) {
+                database.photoDao().insert(photo);
+            }
+            e.onComplete();
+        });
+
     }
 
     public static PhotoRoom getInstance() {

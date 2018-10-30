@@ -6,9 +6,9 @@ import android.net.Uri;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
-import silantyevmn.ru.materialdesign.model.api.ApiService;
 import silantyevmn.ru.materialdesign.model.api.ApiServiceImpl;
 
 
@@ -31,17 +31,17 @@ public class PhotoModel implements IPhotoModel {
     }
 
     @Override
-    public Observable insert(Photo photo) {
+    public Completable insert(Photo photo) {
         return apiService.insert(photo);
     }
 
     @Override
-    public Observable delete(Photo photo) {
+    public Completable delete(Photo photo) {
         return apiService.delete(photo);
     }
 
     @Override
-    public Observable update(Photo photo) {
+    public Completable update(Photo photo) {
         return apiService.update(photo);
     }
 
