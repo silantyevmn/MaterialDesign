@@ -4,8 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 
+import com.arellomobile.mvp.InjectViewState;
+import com.arellomobile.mvp.MvpPresenter;
+
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.DataSharedPreference;
 import silantyevmn.ru.materialdesign.model.photo.IPhotoModel;
@@ -14,35 +19,44 @@ import silantyevmn.ru.materialdesign.model.photo.PhotoModel;
 import silantyevmn.ru.materialdesign.view.DialogView;
 import silantyevmn.ru.materialdesign.view.activity.GaleryActivity;
 import silantyevmn.ru.materialdesign.view.activity.IGaleryView;
-import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragment;
+import silantyevmn.ru.materialdesign.view.fragment.IPhotoFragmentFavorite;
 import silantyevmn.ru.materialdesign.view.fragment.PhotoFragmentFavorite;
 
-/**
- * Created by silan on 25.08.2018.
- */
 
-public class PhotoPresenterFavorite {
-    private final IPhotoFragment view;
+@InjectViewState
+public class PhotoPresenterFavorite extends MvpPresenter<IPhotoFragmentFavorite> {
     private final IPhotoModel model;
     private final IGaleryView mainActivity;
+    private Scheduler mainSheduler;
+    private List<Photo> photos;
 
-    public PhotoPresenterFavorite(PhotoFragmentFavorite photoFragment) {
-        this.view = photoFragment;
+    public PhotoPresenterFavorite(PhotoFragmentFavorite photoFragment, Scheduler mainScheduler) {
         this.mainActivity = (GaleryActivity) photoFragment.getActivity();
         model = PhotoModel.getInstance();
+        this.mainSheduler = mainScheduler;
     }
 
     //создание View
     public void init(Context context) {
-        view.init(getPhotos(), model.getGridLayoutManagerSpan(context.getResources().getConfiguration().orientation));
+        getPhotos().observeOn(mainSheduler)
+                .subscribe(list -> {
+                    photos = list;
+                    getViewState().init(list, model.getGridLayoutManagerSpan(context.getResources().getConfiguration().orientation));
+                });
+
     }
 
-    private List<Photo> getPhotos() {
+    private Observable<List<Photo>> getPhotos() {
         return model.getListFavorite();
     }
 
     public void updateAdapter() {
-        view.setAdapter(getPhotos());
+        getPhotos().observeOn(mainSheduler)
+                .subscribe(list -> {
+                    photos = list;
+                    getViewState().setAdapter(list);
+                });
+
     }
 
     public void delete(int position, Activity activity) {
@@ -53,21 +67,29 @@ public class PhotoPresenterFavorite {
             return;
         }
         new DialogView(activity, activity.getString(R.string.dialog_title_delete), () -> {
-            model.delete(getPhotos().get(position));
-            updateAdapter();
-            view.showLog("delete", String.valueOf(position));
+            model.delete(photos.get(position))
+                    .observeOn(mainSheduler)
+                    .subscribe(() -> {
+                        updateAdapter();
+                        getViewState().showLog("delete", String.valueOf(position));
+                    });
         });
 
     }
 
     public void favorite(int position) {
-        model.update(getPhotos().get(position));
-        updateAdapter();
-        view.showLog("favourites", String.valueOf(position));
+        Photo photo = photos.get(position);
+        photo.setFavorite(!photo.isFavorite());
+        model.update(photo)
+                .observeOn(mainSheduler)
+                .subscribe(() -> {
+                    updateAdapter();
+                    getViewState().showLog("favourites", String.valueOf(position));
+                });
     }
 
     public void onClickPhoto(int adapterPosition) {
         //запускаем в главной активити
-        mainActivity.showFullPhoto(getPhotos().get(adapterPosition));
+        mainActivity.showFullPhoto(photos.get(adapterPosition));
     }
 }

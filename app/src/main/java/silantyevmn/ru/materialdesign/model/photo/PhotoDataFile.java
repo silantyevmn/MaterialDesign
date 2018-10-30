@@ -15,11 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
 import silantyevmn.ru.materialdesign.R;
 
-/**
- * Created by silan on 29.08.2018.
- */
 
 public class PhotoDataFile implements IPhotoDataFile {
     private static PhotoDataFile fileOperation;
@@ -50,22 +50,24 @@ public class PhotoDataFile implements IPhotoDataFile {
     }
 
     @Override
-    public void delete(Photo photo) {
-        for (File file : storageDIR.listFiles()) {
-            if (file.getName().equals(photo.getName())) {
-                file.delete();
-                return;
+    public Completable delete(Photo photo) {
+        return Completable.create(e->{
+            for (File file : storageDIR.listFiles()) {
+                if (file.getName().equals(photo.getName())) {
+                    file.delete();
+                }
             }
-        }
+            e.onComplete();
+        });
     }
 
     @Override
-    public void update(Photo photo) {
-
+    public Completable update(Photo photo) {
+        return null;
     }
 
     @Override
-    public List<Photo> getListFavorite() {
+    public Observable<List<Photo>> getListFavorite() {
         return null;
     }
 
@@ -107,13 +109,13 @@ public class PhotoDataFile implements IPhotoDataFile {
     }
 
     @Override
-    public List<Photo> getList() {
+    public Observable<List<Photo>> getList() {
         return null;
     }
 
     @Override
-    public void insert(Photo photo) {
-        //
+    public Completable insert(Photo photo) {
+        return null;
     }
 
     public static PhotoDataFile getInstance() {

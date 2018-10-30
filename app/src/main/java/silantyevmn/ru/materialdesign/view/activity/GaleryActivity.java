@@ -31,7 +31,6 @@ import silantyevmn.ru.materialdesign.view.fragment.TabFragmentFactory;
 
 public class GaleryActivity extends MvpAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, IGaleryView {
-    //private final GaleryPresenter presenter;
     private final int IMPORT_CAMERA_REQUEST = 1;
     private final int IMPORT_GALERY_REQUEST = 2;
     private final int SETTING_REQUEST = 3;
@@ -48,10 +47,6 @@ public class GaleryActivity extends MvpAppCompatActivity
         //TO SOMETHING WITH PRESENTER
         return presenter;
     }
-/*
-    public GaleryActivity() {
-        presenter = new GaleryPresenter(this);
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

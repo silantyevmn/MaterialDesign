@@ -16,22 +16,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenter;
+import silantyevmn.ru.materialdesign.presenter.PhotoPresenterFavorite;
+import silantyevmn.ru.materialdesign.view.activity.GaleryActivity;
 
-public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
+public class PhotoFragment extends MvpAppCompatFragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
     private RecyclerView recyclerView;
     private FloatingActionButton fab;
     private FloatingActionButton fabCamera;
     private FloatingActionButton fabGalery;
-    private PhotoPresenter presenter;
     private PhotoAdapter adapter;
     private boolean isFABOpen = false;
     private ImageView imageViewTest;
+
+    @InjectPresenter
+    PhotoPresenter presenter;
+
+    @ProvidePresenter
+    public PhotoPresenter provideSettingPresenter() {
+        presenter = new PhotoPresenter(AndroidSchedulers.mainThread());
+        //TO SOMETHING WITH PRESENTER
+        return presenter;
+    }
 
     public static PhotoFragment newInstance(Bundle bundle) {
         PhotoFragment currentFragment = new PhotoFragment();
@@ -44,7 +60,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new PhotoPresenter(this);
+        //presenter = new PhotoPresenter(this);
         showLog("PhotoFragment", "onCreate");
     }
 
@@ -89,8 +105,8 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
         isFABOpen = true;
         fabCamera.animate().translationY(-getResources().getDimension(R.dimen.standard_55));
         fabGalery.animate().translationY(-getResources().getDimension(R.dimen.standard_105));
-        fabCamera.setOnClickListener(view -> presenter.onClickImportCamera(getActivity()));
-        fabGalery.setOnClickListener(view -> presenter.onClickImportGalery(getActivity()));
+        fabCamera.setOnClickListener(view -> presenter.onClickImportCamera((GaleryActivity) getActivity()));
+        fabGalery.setOnClickListener(view -> presenter.onClickImportGalery((GaleryActivity) getActivity()));
     }
 
     private void closeFABMenu() {
@@ -161,7 +177,7 @@ public class PhotoFragment extends Fragment implements IPhotoFragment, PhotoAdap
 
     @Override
     public void onClickPhoto(int position) {
-        presenter.onClickPhoto(position);
+        presenter.onClickPhoto((GaleryActivity) getActivity(),position);
     }
 
     @Override

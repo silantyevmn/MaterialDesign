@@ -4,9 +4,6 @@ import android.arch.persistence.room.*;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Created by silan on 18.08.2018.
- */
 
 @Entity(indices = {@Index(value = {"name"}, unique = true)})
 public class Photo {
@@ -45,5 +42,13 @@ public class Photo {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Photo)) return false;
+
+        return this.name.equals(((Photo) obj).getName());
     }
 }

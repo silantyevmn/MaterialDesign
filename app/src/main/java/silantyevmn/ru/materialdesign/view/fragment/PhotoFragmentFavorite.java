@@ -12,17 +12,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
+
 import java.util.List;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import silantyevmn.ru.materialdesign.R;
 import silantyevmn.ru.materialdesign.model.photo.Photo;
 import silantyevmn.ru.materialdesign.model.photo.PhotoAdapter;
+import silantyevmn.ru.materialdesign.presenter.GaleryPresenter;
 import silantyevmn.ru.materialdesign.presenter.PhotoPresenterFavorite;
 
-public class PhotoFragmentFavorite extends Fragment implements IPhotoFragment, PhotoAdapter.OnClickAdapter {
+public class PhotoFragmentFavorite extends MvpAppCompatFragment implements IPhotoFragmentFavorite, PhotoAdapter.OnClickAdapter {
     private RecyclerView recyclerView;
-    private PhotoPresenterFavorite presenter;
     private PhotoAdapter adapter;
+
+    @InjectPresenter
+    PhotoPresenterFavorite presenter;
+
+    @ProvidePresenter
+    public PhotoPresenterFavorite provideSettingPresenter() {
+        presenter = new PhotoPresenterFavorite(this, AndroidSchedulers.mainThread());
+        //TO SOMETHING WITH PRESENTER
+        return presenter;
+    }
 
     public static PhotoFragmentFavorite newInstance(Bundle bundle) {
         PhotoFragmentFavorite currentFragment = new PhotoFragmentFavorite();
@@ -35,7 +50,6 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragment, P
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        presenter = new PhotoPresenterFavorite(this);
         Log.i("PhotoFragmentFavorite", "onCreate");
     }
 
@@ -98,18 +112,4 @@ public class PhotoFragmentFavorite extends Fragment implements IPhotoFragment, P
         presenter.updateAdapter();
     }
 
-    @Override
-    public void showBottonHome() {
-
-    }
-
-    @Override
-    public void showBottonDatabase() {
-
-    }
-
-    @Override
-    public void showBottonNetwork() {
-
-    }
 }
