@@ -13,8 +13,8 @@ import silantyevmn.ru.materialdesign.model.theme.ModelTheme;
  * Created by silan on 19.08.2018.
  */
 
-public class MaterialDesignApplication extends Application {
-    private static MaterialDesignApplication application;
+public class App extends Application {
+    private static App application;
 
     @Override
     public void onCreate() {
@@ -28,7 +28,7 @@ public class MaterialDesignApplication extends Application {
         ModelTheme.init();
     }
 
-    public static MaterialDesignApplication getInstance() {
+    public static App getInstance() {
         return application;
     }
 

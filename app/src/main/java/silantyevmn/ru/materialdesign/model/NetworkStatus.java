@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
 
-import silantyevmn.ru.materialdesign.MaterialDesignApplication;
+import silantyevmn.ru.materialdesign.App;
 
 public class NetworkStatus {
     public enum Status {
@@ -20,16 +20,16 @@ public class NetworkStatus {
 
     private static boolean isAirplane() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            return Settings.System.getInt(MaterialDesignApplication.getInstance().getContentResolver(),
+            return Settings.System.getInt(App.getInstance().getContentResolver(),
                     Settings.System.AIRPLANE_MODE_ON, 0) != 0;
         } else {
-            return Settings.Global.getInt(MaterialDesignApplication.getInstance().getContentResolver(),
+            return Settings.Global.getInt(App.getInstance().getContentResolver(),
                     Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
         }
     }
 
     public static Status getStatus() {
-        ConnectivityManager cm = (ConnectivityManager) MaterialDesignApplication.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) App.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null != activeNetwork) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
